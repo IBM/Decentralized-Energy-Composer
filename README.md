@@ -1,6 +1,6 @@
 # Welcome to Decentralized Energy journey on Hyperledger Composer!
 
-In this developer journey, we will create a decentralized energy network using Hyperledger Composer.  The application demonstrates Blockchain transaction among participants.  The network consists of Residents, Banks and Utility Company.  The Residents can exchange coins for energy among each other.  The application assumes a pre-paid system where transactions occur after the energy is consumed and the values are updated.  The Resident can exchange coins for Fiat money (cash) with Banks on the network.  The Residents can transact coins for energy also with a Utility company on the network. 
+In this developer journey, we will create a decentralized energy network using Hyperledger Composer.  The network consists of Residents, Banks and Utility Company. The application demonstrates atomic Blockchain transactions among these participants to create a decentralized system. The Residents can exchange coins for energy among each other.  The application assumes a pre-paid system where transactions occur after the energy is consumed.  The Resident can exchange coins for Fiat money (cash) with Banks on the network. And the Residents can transact coins for energy with a Utility Company on the network. 
 
 # Running the Application
 Follow these steps to setup and run this developer journey. The steps are described in detail below.
