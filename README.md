@@ -77,7 +77,7 @@ You can verify that the network has been deployed by typing:
 composer network ping -n decentralized-energy-network -p hlfv1 -i admin -s adminpw
 ```
 
-## 5. [Run Application](#5-run-applications)
+## 5. Run Application
 
 First, go into the `angular-app` folder and install the dependency:
 
@@ -98,12 +98,12 @@ The REST server to communicate with network is available here:
 `http://localhost:3000/explorer/`
 
 
-## 6. [Create Participants](#6-create-participants)
+## 6. Create Participants
 
 Once the application opens, create participants and fill in dummy data.  Create Residents, Banks and Utility Companies.
 
 
-## 7. [Execute Transactions](#7-execute-transactions)
+## 7. Execute Transactions
 
 Execute transactions manually between Residents, Resident and Bank, and Resident and Utility Company.  After executing transactions, ensure the participants account values are updated.
 
