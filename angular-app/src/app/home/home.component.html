@@ -1,0 +1,82 @@
+
+
+<div class="container">
+  <div class="row">  
+      <!--h1 class="heading">decentralized energy </h1--> 
+     <h1 class="heading">Welcome to Decentralized Energy using Hyperledger Composer</h1>
+  </div> 
+
+  <div class="row">
+    <br>
+  </div> 
+
+  <div class="row bodytext">      
+      <!--h3>Welcome to Decentralized Energy using Hyperledger Composer!</h3-->      
+      <div class="col-md-12">
+        <p class=""> This Blockchain application demonstrates energy sharing on a network among 'Residents' on a grid. The energy trade is based on exchanging coins for energy provided. The network also includes 'Utility Companies' to trade excess energy with or obtain energy from, and 'Banks' to exchange cash (fiat money) for coins.  </p>
+        <p class=""> Find more detail <a [routerLink]="['/About']" > about the application. </a> </p>
+
+      </div>
+    </div> 
+
+  <div class="row">
+    <br>
+  </div> 
+
+  <div class="row">
+    <h4> Step1 - Create and Update Participants </h4>
+    <!-- div class="col-md-9" -->
+      	  
+    <!-- /div -->
+    <div class="participant">
+      <p> <strong>Residents</strong> own three assets: Energy, Coins and Cash. They can trade with fellow residents, banks, and utility companies.</p>
+      <a [routerLink]="['/Resident']" class=participantButton>Residents</a> 
+    </div>      
+    <div class="participant">
+      <p> <strong>Utility Companies</strong> own two assets: Energy and Coins. They can trade with residents, who can buy or sell energy for coins. </p>
+      <a [routerLink]="['/Utility']" class="participantButton">Utility Companies</a>
+    </div> 
+    <div class="participant">
+      
+      <p> <strong>Banks</strong> on the network own two assets: Cash and Coins. They can trade with residents, who can buy or sell coins for cash. </p>
+      <a [routerLink]="['/Bank']" class="participantButton">Banks</a>
+    </div>   
+  
+  </div> 
+
+  <div class="row">
+    <br>
+  </div> 
+
+  <div class="row">
+
+    <h4> Step2 - Execute Transactions </h4>
+
+  </div> 
+
+  <div class="row"> 
+    
+    <div class="participant">
+      <p> Execute a transaction between Residents by exchanging Coins for Energy </p>
+      <a [routerLink]="['/TransactionRR']" class=participantButton>Resident to Resident</a> 
+    </div>           
+    
+    <div class="participant">
+      <p> Execute a transaction between a Resident and a Utility Company by exchanging Coins for Energy </p>
+      <a [routerLink]="['/TransactionRU']" class="participantButton">Resident to Utility</a>
+    </div>   
+    <div class="participant">
+      <p> Execute a transaction between a Resident and a Bank by exchanging Coins for Cash </p>
+      <a [routerLink]="['/TransactionRB']" class="participantButton">Resident to Bank</a>
+    </div> 
+    
+  </div> 
+
+  <div class="row">
+    <br>
+  </div> 
+  <div class="row">
+    <br>
+  </div> 
+
+</div>

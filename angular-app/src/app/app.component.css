@@ -1,0 +1,26 @@
+
+
+.navbar2 {
+    background-color: #0c2438;
+    color: white;
+}
+
+.navfont {
+    color: #ddd;
+}
+
+.navfontAbout {
+    color: #ddd;
+    font-size: 14px;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: #ddd;
+}
+
+
+.bodybackground {
+    /* background-color: #f0f8ff;  */
+    text-align: center;
+    
+}

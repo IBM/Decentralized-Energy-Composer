@@ -1,0 +1,97 @@
+/**
+ * Decentalized energy network
+ */
+namespace org.decentralized.energy.network
+
+participant Resident identified by residentID {
+    o String residentID
+    o String firstName
+    o String lastName
+    --> Coins coins
+    --> Cash cash
+    --> Energy energy
+}
+
+participant Bank identified by bankID {
+    o String bankID
+    o String name
+    --> Coins coins
+    --> Cash cash
+}
+
+participant UtilityCompany identified by utilityID {
+    o String utilityID
+    o String name
+    --> Coins coins
+    --> Energy energy
+}
+
+
+enum OwnerEntity {
+  o Resident
+  o Bank
+  o UtilityCompany
+}
+
+asset Coins identified by coinsID {
+    o String coinsID
+    o Double value
+    o String ownerID
+    o OwnerEntity ownerEntity
+    
+}
+
+asset Energy identified by energyID {
+    o String energyID
+    o String units
+    o Double value
+    o String ownerID
+    o OwnerEntity ownerEntity
+} 
+
+asset Cash identified by cashID {
+    o String cashID
+    o String currency
+    o Double value
+    o String ownerID
+    o OwnerEntity ownerEntity
+} 
+
+
+transaction ResidentToResident {
+    o Double coinsValue
+    o Double energyValue       
+    --> Coins coinsInc
+    --> Coins coinsDec
+    --> Energy energyInc
+    --> Energy energyDec
+}
+
+
+transaction ResidentToBank {
+    o Double coinsValue
+    o Double cashValue       
+    --> Coins coinsInc
+    --> Coins coinsDec
+    --> Cash cashInc
+    --> Cash cashDec
+}
+
+transaction ResidentToUtility {
+    o Double coinsValue
+    o Double energyValue       
+    --> Coins coinsInc
+    --> Coins coinsDec
+    --> Energy energyInc
+    --> Energy energyDec
+}
+
+
+transaction ResidentToResident2 {
+    o Double coinsValue
+    o Double energyValue       
+    --> Resident resident1
+    --> Resident resident2
+}
+
+

@@ -1,0 +1,81 @@
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-9">
+      <h1 class="heading">Decentralized Energy </h1>
+    </div><!-- /column -->    
+  </div><!-- /row -->
+
+  <div class="row">
+    <br>
+  </div><!-- /row -->
+
+  <div class="row">
+    <div *ngIf="transactionFrom" class="col-md-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">Execute Transaction</div>
+        <div class="panel-body">
+          <form [formGroup]="myForm">
+            
+            <p>Resident: </p>           
+              <select name="residents" formControlName="formResidentID">
+                <option *ngFor="let resident of allResidents" value="{{resident.residentID}}">{{resident.residentID}}</option>
+              </select>
+
+            <p>Bank: </p>
+              <select name="banks" formControlName="formBankID" >
+                <option *ngFor="let bank of allBanks" value="{{bank.bankID}}">{{bank.bankID}}</option>
+              </select>
+
+            <p>Action: </p>           
+              <select name="actions" formControlName="action">
+                <option value="getCash">Get Cash for Coins</option>
+                <option value="getCoins">Get Coins for Cash</option>
+              </select>
+
+            <p>Cash:</p>
+              <input formControlName="cashValue" type="number" step='any' class="form-control">
+            <p>Coins: </p>
+              <input formControlName="coinsValue" type="number" step='any' class="form-control">
+            </form>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!transactionFrom" class="col-md-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">Transaction Executed</div>
+        <div class="panel-body">
+          <form [formGroup]="myForm">
+            <p>Transaction ID: {{transactionID}}</p> 
+            <!--p>Bank: {{formBankID.value}}</p>                                
+           <br>
+            <p>Cash Credited ID: {{cashCreditID}}</p>
+            <p>Coins Credited ID: {{coinsCreditID}}</p>    
+            <p>Cash Debited ID: {{cashDebitID}}</p>
+            <p>Coins Debited ID: {{coinsDebitID}}</p>             
+           <br>
+            <p>Cash exchanged: {{cashValue.value}}</p>
+            <p>Coins exchanged: {{coinsValue.value}}</p -->
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /row -->
+
+  <div class="row">  
+    <div *ngIf="transactionFrom" class="col-md-4">
+    <button (click)="execute(form);" type="button" class="btn btn-success" data-toggle="modal" >Execute Transaction</button>
+	  
+    </div>
+  </div><!-- /row -->
+
+  <div class="row">
+    <br>
+    <br>
+  </div><!-- /row -->
+
+
+</div>
