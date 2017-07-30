@@ -146,19 +146,11 @@
 
 
 
-
-
-
-
-
-
-
-
 <div class="container">
 	<div *ngIf="errorMessage" class="alert alert-danger" role="alert">
 		<strong>Error:</strong> {{errorMessage}}
 	</div>
-  <h1 id='assetName'>Coins</h1>
+  <h1 id='assetName'>Coins Assets</h1>
   <div class="row">
     <!--div class="col-md-12 text-right">
       <button (click)="resetForm()" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAssetModal">Add Asset</button>
@@ -167,17 +159,17 @@
   <br>
   <div class="row">
     <div class="col-md-12">
-      <table class="table table-bordered table-responsive table-striped">
+      <table class="table table-bordered table-responsive table-hover">
         <thead class="thead">
           <tr class="thead-cols">
             
-                <th class="info">coinsID</th>
+                <th class="bc">Coins ID</th>                            
             
-                <th class="info">value</th>
+                <th class="bc">Owner ID</th>
             
-                <th class="info">ownerID</th>
-            
-                <th class="info">ownerEntity</th>
+                <th class="bc">Owner Entity</th>
+
+                <th class="bc">Value</th>
             
               <!--th class="info">Actions</th-->
           </tr>
@@ -187,12 +179,12 @@
 
             
                 <td>{{asset.coinsID}}</td>
-            
-                <td>{{asset.value}}</td>
-            
+                                        
                 <td>{{asset.ownerID}}</td>
             
                 <td>{{asset.ownerEntity}}</td>
+
+                <td>{{asset.value}}</td>
             
             <!--td>
               <button (click)="getForm(asset.coinsID);" type="button" class="btn btn-success" data-toggle="modal" data-target="#updateAssetModal">Update Asset</button>

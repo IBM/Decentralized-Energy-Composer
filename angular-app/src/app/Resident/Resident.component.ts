@@ -54,7 +54,6 @@ export class ResidentComponent {
     this.loadAll();
   }
 
-  
 
   resetForm(): void{
     this.myForm.setValue({           
@@ -69,8 +68,6 @@ export class ResidentComponent {
           "cashCurrency":null
       });
   }
-
-  
 
 
   updateResident(form: any): Promise<any> {
@@ -324,8 +321,7 @@ export class ResidentComponent {
           "ownerID":this.residentID.value,
           "ownerEntity":'Resident'
     };
-    //this.serviceResident.addCoins(this.coins);
-
+    
     this.energy = {
       $class: "org.decentralized.energy.network.Energy",
           "energyID":"EN_" + this.residentID.value,
@@ -334,7 +330,6 @@ export class ResidentComponent {
           "ownerID":this.residentID.value,
           "ownerEntity":'Resident'        
     };
-    //this.serviceResident.addEnergy(this.energy);
 
     this.cash = {
       $class: "org.decentralized.energy.network.Cash",
@@ -343,8 +338,7 @@ export class ResidentComponent {
           "value":this.cashValue.value,
           "ownerID":this.residentID.value,
           "ownerEntity":'Resident'        
-    };
-    //return this.serviceResident.addCash(this.cash)
+    };    
     
     this.resident = {
       $class: "org.decentralized.energy.network.Resident",
@@ -356,9 +350,7 @@ export class ResidentComponent {
           "cash":"CA_" + this.residentID.value,
           "energy":"EN_" + this.residentID.value,
 
-      };
-    //this.serviceResident.addResident(this.resident)
-
+      };    
 
     return this.serviceResident.addCoins(this.coins)
     .toPromise()
@@ -377,15 +369,11 @@ export class ResidentComponent {
           .then(() => {
            console.log("created assets");
            location.reload();
-            })
-            
-        })
-		  })   
-		})
-
+            });            
+        });
+		  });   
+		});
   }
-
- 
 }
 
 

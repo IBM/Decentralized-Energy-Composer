@@ -1,1 +1,11 @@
-{}
+
+
+.inlineInput {    
+    display: inline;
+    max-width: 8.00rem;    
+}
+
+.RR {
+    text-align: left;
+}
+

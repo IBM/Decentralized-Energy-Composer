@@ -176,7 +176,7 @@
 	<div *ngIf="errorMessage" class="alert alert-danger" role="alert">
 		<strong>Error:</strong> {{errorMessage}}
 	</div>
-  <h1 id='assetName'>Cash</h1>
+  <h1 id='assetName'>Cash Assets</h1>
   <div class="row">
     <!--div class="col-md-12 text-right">
       <button (click)="resetForm()" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAssetModal">Add Asset</button>
@@ -185,20 +185,20 @@
   <br>
   <div class="row">
     <div class="col-md-12">
-      <table class="table table-bordered table-responsive table-striped">
+      <table class="table table-bordered table-responsive table-hover">
         <thead class="thead">
           <tr class="thead-cols">
             
-                <th class="info">cashID</th>
+                <th class="bc">Cash ID</th>
+
+                <th class="bc">Owner ID</th>
             
-                <th class="info">currency</th>
+                <th class="bc">Owner Entity</th>
             
-                <th class="info">value</th>
+                <th class="bc">Currency</th>
             
-                <th class="info">ownerID</th>
-            
-                <th class="info">ownerEntity</th>
-            
+                <th class="bc">Value</th>
+                                        
               <!--th class="info">Actions</th-->
           </tr>
         </thead>
@@ -206,15 +206,15 @@
           <tr *ngFor="let asset of allAssets">
 
             
-                <td>{{asset.cashID}}</td>
-            
-                <td>{{asset.currency}}</td>
-            
-                <td>{{asset.value}}</td>
+                <td>{{asset.cashID}}</td>                            
             
                 <td>{{asset.ownerID}}</td>
             
                 <td>{{asset.ownerEntity}}</td>
+
+                <td>{{asset.currency}}</td>
+            
+                <td>{{asset.value}}</td>
             
             <!--td>
               <button (click)="getForm(asset.cashID);" type="button" class="btn btn-success" data-toggle="modal" data-target="#updateAssetModal">Update Asset</button>

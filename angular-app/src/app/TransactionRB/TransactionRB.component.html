@@ -1,63 +1,63 @@
 
 
 <div class="container">
+
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+		<strong>Error:</strong> {{errorMessage}}
+	</div>
+
   <div class="row">
-    <div class="col-md-9">
-      <h1 class="heading">Decentralized Energy </h1>
-    </div><!-- /column -->    
+      <h1>Resident to Bank </h1>  
   </div><!-- /row -->
 
   <div class="row">
     <br>
   </div><!-- /row -->
 
-  <div class="row">
-    <div *ngIf="transactionFrom" class="col-md-4">
+  <div class="row RR">
+    <div *ngIf="transactionFrom" class="col-md-offset-3 col-md-6">
       <div class="panel panel-default">
-        <div class="panel-heading">Execute Transaction</div>
+        <div class="panel-heading"> <strong>Enter Transaction Info </strong>
+        </div>
         <div class="panel-body">
           <form [formGroup]="myForm">
+
+            <p><strong>Rate: {{bankCoinsPerCash}}  Coins / USD </strong></p>
+
+            <p>Action:         
+              <select name="actions" formControlName="action">
+                <option value="getCash">Get Cash (USD) for Coins</option>
+                <option value="getCoins">Get Coins for Cash (USD)</option>
+              </select>
+            </p>
             
-            <p>Resident: </p>           
+            <p>Resident: 
               <select name="residents" formControlName="formResidentID">
                 <option *ngFor="let resident of allResidents" value="{{resident.residentID}}">{{resident.residentID}}</option>
               </select>
+            </p>           
 
-            <p>Bank: </p>
+            <p>Bank: 
               <select name="banks" formControlName="formBankID" >
                 <option *ngFor="let bank of allBanks" value="{{bank.bankID}}">{{bank.bankID}}</option>
               </select>
+            </p>
 
-            <p>Action: </p>           
-              <select name="actions" formControlName="action">
-                <option value="getCash">Get Cash for Coins</option>
-                <option value="getCoins">Get Coins for Cash</option>
-              </select>
-
-            <p>Cash:</p>
-              <input formControlName="cashValue" type="number" step='any' class="form-control">
-            <p>Coins: </p>
-              <input formControlName="coinsValue" type="number" step='any' class="form-control">
+            <p>Cash value (USD):
+              <input formControlName="value" type="number" step='any' class="form-control inlineInput">
+            </p>
+  
             </form>
         </div>
       </div>
     </div>
 
-    <div *ngIf="!transactionFrom" class="col-md-4">
+    <div *ngIf="!transactionFrom" class="col-md-offset-3 col-md-6">
       <div class="panel panel-default">
-        <div class="panel-heading">Transaction Executed</div>
+        <div class="panel-heading"><strong>Transaction Executed</strong></div>
         <div class="panel-body">
           <form [formGroup]="myForm">
-            <p>Transaction ID: {{transactionID}}</p> 
-            <!--p>Bank: {{formBankID.value}}</p>                                
-           <br>
-            <p>Cash Credited ID: {{cashCreditID}}</p>
-            <p>Coins Credited ID: {{coinsCreditID}}</p>    
-            <p>Cash Debited ID: {{cashDebitID}}</p>
-            <p>Coins Debited ID: {{coinsDebitID}}</p>             
-           <br>
-            <p>Cash exchanged: {{cashValue.value}}</p>
-            <p>Coins exchanged: {{coinsValue.value}}</p -->
+            <p>Transaction ID: {{transactionID}}</p>             
           </form>
         </div>
       </div>
@@ -66,7 +66,7 @@
   </div><!-- /row -->
 
   <div class="row">  
-    <div *ngIf="transactionFrom" class="col-md-4">
+    <div *ngIf="transactionFrom" class="col-md-offset-4 col-md-4">
     <button (click)="execute(form);" type="button" class="btn btn-success" data-toggle="modal" >Execute Transaction</button>
 	  
     </div>

@@ -13,6 +13,14 @@ import 'rxjs/add/operator/toPromise';
 })
 export class TransactionRUComponent {
 
+  private utilityCoinsPerEnergy = 1;
+  private utilityEnergyPerCoins = (1 / this.utilityCoinsPerEnergy).toFixed(3);  
+  private coinsExchanged;
+  
+  private utilityRate;
+  private energyValue;
+
+
   myForm: FormGroup;
   private errorMessage;
   private transactionFrom;
@@ -37,8 +45,8 @@ export class TransactionRUComponent {
 
     action = new FormControl("", Validators.required); 
 
-	  energyValue = new FormControl("", Validators.required);
-	  coinsValue = new FormControl("", Validators.required);
+	  value = new FormControl("", Validators.required);
+	  
   
   constructor(private serviceTransaction:TransactionRUService, fb: FormBuilder) {
       
@@ -49,8 +57,8 @@ export class TransactionRUComponent {
 
       action:this.action,
 
-      energyValue:this.energyValue,
-      coinsValue:this.coinsValue
+      value:this.value,
+      
     });
     
   };
@@ -113,12 +121,9 @@ export class TransactionRUComponent {
   }
 
   execute(form: any): Promise<any> {
-      
-    console.log('Energy quantiy ' + this.energyValue.value);
-    console.log('Coins quantiy ' + this.coinsValue.value);
-    console.log('Resident ' + this.formResidentID.value);
-    console.log('UtilityCompany ' + this.formUtilityID.value);
+          
     console.log(this.allResidents)
+    console.log(this.allUtilityCompanys)
 
     for (let resident of this.allResidents) {
         console.log(resident.residentID); 
@@ -139,12 +144,20 @@ export class TransactionRUComponent {
     console.log('Action: ' + this.action.value)
 
     if(this.action.value == 'buyEnergy') {
+
+        this.utilityRate = this.utilityCoinsPerEnergy;
+        this.energyValue = this.value.value * this.utilityCoinsPerEnergy;
+
         this.energyReceiverAsset = this.resident.energy;
         this.energyProducerAsset = this.utiltyCompany.energy;  
         this.coinsCreditAsset = this.utiltyCompany.coins;
         this.coinsDebitAsset = this.resident.coins;
     }
     else if(this.action.value == 'sellEnergy') {
+
+        this.utilityRate = this.utilityCoinsPerEnergy;
+        this.energyValue = this.value.value;
+
         this.energyReceiverAsset = this.utiltyCompany.energy;
         this.energyProducerAsset = this.resident.energy;  
         this.coinsCreditAsset = this.resident.coins;
@@ -157,182 +170,78 @@ export class TransactionRUComponent {
     console.log('Consumer Energy ID ' + this.energyReceiverAsset);
     console.log('Consumer Coins ID ' + this.coinsDebitAsset);
 
+    var splitted_energyID = this.energyProducerAsset.split("#", 2); 
+    var energyID = String(splitted_energyID[1]);
 
+    var splitted_coinsID = this.coinsDebitAsset.split("#", 2); 
+    var coinsID = String(splitted_coinsID[1]);
+        
+    this.coinsExchanged = this.utilityCoinsPerEnergy * this.energyValue;
     this.residentToUtilityObj = {
-      $class: "org.decentralized.energy.network.ResidentToResident",
-      "coinsValue": this.coinsValue.value,
-      "energyValue": this.energyValue.value,
+      $class: "org.decentralized.energy.network.ResidentToUtility",
+      "utilityEnergyRate": this.utilityCoinsPerEnergy,
+      "energyValue": this.energyValue,
       "coinsInc": this.coinsCreditAsset,
       "coinsDec": this.coinsDebitAsset,
       "energyInc": this.energyReceiverAsset,
       "energyDec": this.energyProducerAsset
     };
-    return this.serviceTransaction.residentToUtility(this.residentToUtilityObj)
+    return this.serviceTransaction.getEnergy(energyID)
     .toPromise()
     .then((result) => {
-			this.errorMessage = null;
-      this.transactionID = result.transactionId;
-      console.log(result)     
+      this.errorMessage = null;
+      if(result.value) {
+        if ((result.value - this.energyValue) < 0 ){          
+          this.errorMessage = "Insufficient energy in producer account";
+          return false;
+        }
+        return true;
+      }
     })
-    .catch((error) => {
-        if(error == 'Server error'){
-            this.errorMessage = "Could not connect to REST server. Please check your configuration details";
-        }
-        else if(error == '404 - Not Found'){
-				this.errorMessage = "404 - Could not find API route. Please check your available APIs."
-        }
-        else{
-            this.errorMessage = error;
-        }
-    }).then(() => {
-			this.transactionFrom = false;
-		});
-
-    /*
-    console.log("add energy");
-    return this.addEnergy()    
-		.then(() => {  
-      console.log("deduct coins");
-			this.deductCoins() 
-		  .then(() => {
-        console.log("add coins");
-        this.addCoins()        
-        .then(() => {
-          console.log("deduct energy");
-          this.deductEnergy()
-          .then(() => {
-           console.log("change form");
-           this.transactionFrom = false; 
-          });        
+    .then((checkProducerEnergy) => {
+      console.log('checkEnergy: ' + checkProducerEnergy)
+      if(checkProducerEnergy)
+      {        
+        this.serviceTransaction.getCoins(coinsID)
+        .toPromise()
+        .then((result) => {
+          this.errorMessage = null;
+          if(result.value) {
+            if ((result.value - this.coinsExchanged) < 0 ){
+              
+              this.errorMessage = "Insufficient coins in consumer account";
+              return false;
+            }
+            return true;
+          }
+        })
+        .then((checkConsumerCoins) => {
+          console.log('checkConsumerCoins: ' + checkConsumerCoins)
+          if(checkConsumerCoins)
+          {
+            this.serviceTransaction.residentToUtility(this.residentToUtilityObj)
+            .toPromise()
+            .then((result) => {
+              this.errorMessage = null;
+              this.transactionID = result.transactionId;
+              console.log(result);
+            })
+            .catch((error) => {
+                if(error == 'Server error'){
+                    this.errorMessage = "Could not connect to REST server. Please check your configuration details";
+                }
+                else if(error == '404 - Not Found'){
+                this.errorMessage = "404 - Could not find API route. Please check your available APIs."
+                }
+                else{
+                    this.errorMessage = error;
+                }
+            }).then(() => {
+              this.transactionFrom = false;
+            });
+          }
         });
-		  });
+      }        
     });
-    */
-
-  }
-
-  /*
-
-  addEnergy(): Promise<any> {
-    
-    this.transferEnergyObj = {
-      $class: "org.decentralized.energy.network.TransferEnergy",
-      "value": this.energyValue.value,
-      "energy": this.energyReceiverAsset,
-      "transactionId": " "          
-    };
-    return this.serviceTransaction.transferEnergy(this.transferEnergyObj)
-    .toPromise()
-    .then((result) => {
-			this.errorMessage = null;
-      this.energyReceivedID = result.energyUpdateID;
-      console.log(result)     
-    })
-    .catch((error) => {
-        if(error == 'Server error'){
-            this.errorMessage = "Could not connect to REST server. Please check your configuration details";
-        }
-        else if(error == '404 - Not Found'){
-				this.errorMessage = "404 - Could not find API route. Please check your available APIs."
-        }
-        else{
-            this.errorMessage = error;
-        }
-    });
-  }
-
-  addCoins(): Promise<any> {
-    
-    this.transferCoinsObj = {
-      $class: "org.decentralized.energy.network.TransferCoins",
-      "value": this.coinsValue.value,
-      "coins": this.coinsCreditAsset,
-      "transactionId": " "          
-    };
-    return this.serviceTransaction.transferCoins(this.transferCoinsObj)
-    .toPromise()
-    .then((result) => {
-			this.errorMessage = null;
-      this.coinsCreditID = result.coinsUpdateID;
-      console.log(result)     
-    })
-    .catch((error) => {
-        if(error == 'Server error'){
-            this.errorMessage = "Could not connect to REST server. Please check your configuration details";
-        }
-        else if(error == '404 - Not Found'){
-				this.errorMessage = "404 - Could not find API route. Please check your available APIs."
-        }
-        else{
-            this.errorMessage = error;
-        }
-    });
-
-  }
-
-
-  deductCoins(): Promise<any> {
-
-    var subtractValue = 0 - this.coinsValue.value
-
-    this.transferCoinsObj = {
-      $class: "org.decentralized.energy.network.TransferCoins",
-      "value": subtractValue,
-      "coins": this.coinsDebitAsset,
-      "transactionId": " "          
-    };
-    return this.serviceTransaction.transferCoins(this.transferCoinsObj)
-    .toPromise()
-    .then((result) => {
-			this.errorMessage = null;
-      this.coinsDebitID = result.coinsUpdateID;
-      console.log(result)     
-    })
-    .catch((error) => {
-        if(error == 'Server error'){
-            this.errorMessage = "Could not connect to REST server. Please check your configuration details";
-        }
-        else if(error == '404 - Not Found'){
-				this.errorMessage = "404 - Could not find API route. Please check your available APIs."
-        }
-        else{
-            this.errorMessage = error;
-        }
-    });
-    
-  }
-
-
-  deductEnergy(): Promise<any>  {
-
-    var subtractValue = 0 - this.energyValue.value
-
-    this.transferEnergyObj = {
-      $class: "org.decentralized.energy.network.TransferEnergy",
-      "value": subtractValue,
-      "energy": this.energyProducerAsset,
-      "transactionId": " "
-    };
-    return this.serviceTransaction.transferEnergy(this.transferEnergyObj)
-    .toPromise()
-    .then((result) => {
-			this.errorMessage = null;
-      this.energyProvidedID = result.energyUpdateID;
-      console.log(result)     
-    })
-    .catch((error) => {
-        if(error == 'Server error'){
-            this.errorMessage = "Could not connect to REST server. Please check your configuration details";
-        }
-        else if(error == '404 - Not Found'){
-				this.errorMessage = "404 - Could not find API route. Please check your available APIs."
-        }
-        else{
-            this.errorMessage = error;
-        }
-    });
-
-  }
-  */
-        
+  }        
 }

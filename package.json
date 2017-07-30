@@ -52,7 +52,8 @@
       "!./coverage/**/*",
       "!./node_modules/**/*",
       "!./out/**/*",
-      "!./scripts/**/*"
+      "!./scripts/**/*",
+      "!./angular-app/**/*"
     ],
     "path": "header.txt",
     "blocking": true,
@@ -64,7 +65,8 @@
       "coverage/**",
       "features/**",
       "out/**",
-      "test/**"
+      "test/**",
+      "angular-app/**"
     ],
     "reporter": [
       "text-summary",

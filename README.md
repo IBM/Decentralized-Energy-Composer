@@ -1,6 +1,6 @@
-# Decentralized Energy using Hyperledger Composer
+# Welcome to Decentralized Energy journey on Hyperledger Composer!
 
-In this developer journey, we will create a decentralized energy network using Hyperledger Composer.  The network consists of Residents, Banks and Utility Company. The application demonstrates atomic Blockchain transactions among these participants to create a decentralized system. The Residents can exchange coins for energy among each other.  The application assumes a pre-paid system where transactions occur after the energy is consumed.  The Resident can exchange coins for Fiat money (cash) with Banks on the network. And the Residents can transact coins for energy with a Utility Company on the network. 
+In this developer journey, we will create a decentralized energy network using Hyperledger Composer.  The application demonstrates Blockchain transaction among participants.  The network consists of Residents, Banks and Utility Company.  The Residents can exchange coins for energy among each other.  The application assumes a pre-paid system where transactions occur after the energy is consumed and the values are updated.  The Resident can exchange coins for Fiat money (cash) with Banks on the network.  The Residents can transact coins for energy also with a Utility company on the network. 
 
 # Running the Application
 Follow these steps to setup and run this developer journey. The steps are described in detail below.
@@ -62,7 +62,7 @@ composer archive create -a dist/decentralized-energy-network.bna --sourceType di
 The `composer archive create` command has created a file called `decentralized-energy-network.bna` in the `dist` folder.
 
 
-## 4. Deploy to Fabric
+### 4. Deploy to Fabric
 
 Now, we are ready to deploy the BNA file to Hyperledger Fabric:
 
@@ -77,7 +77,7 @@ You can verify that the network has been deployed by typing:
 composer network ping -n decentralized-energy-network -p hlfv1 -i admin -s adminpw
 ```
 
-## 5. Run Application
+5. [Run Application](#5-run-applications)
 
 First, go into the `angular-app` folder and install the dependency:
 
@@ -98,12 +98,12 @@ The REST server to communicate with network is available here:
 `http://localhost:3000/explorer/`
 
 
-## 6. Create Participants
+6. [Create Participants](#6-create-participants)
 
 Once the application opens, create participants and fill in dummy data.  Create Residents, Banks and Utility Companies.
 
 
-## 7. Execute Transactions
+7. [Execute Transactions](#7-execute-transactions)
 
 Execute transactions manually between Residents, Resident and Bank, and Resident and Utility Company.  After executing transactions, ensure the participants account values are updated.
 

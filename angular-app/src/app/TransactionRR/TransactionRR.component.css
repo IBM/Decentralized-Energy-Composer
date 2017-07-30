@@ -1,1 +1,15 @@
-{}
+/*
+.residentDropdown {
+    display: inline-block;
+    width: 160px;
+}*/
+
+
+.inlineInput {    
+    display: inline;
+    max-width: 8.00rem;    
+}
+
+.RR {
+    text-align: left;
+}

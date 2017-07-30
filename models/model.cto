@@ -59,7 +59,7 @@ asset Cash identified by cashID {
 
 
 transaction ResidentToResident {
-    o Double coinsValue
+    o Double residentEnergyRate
     o Double energyValue       
     --> Coins coinsInc
     --> Coins coinsDec
@@ -69,8 +69,8 @@ transaction ResidentToResident {
 
 
 transaction ResidentToBank {
-    o Double coinsValue
-    o Double cashValue       
+    o Double bankCashRate       
+    o Double cashValue    
     --> Coins coinsInc
     --> Coins coinsDec
     --> Cash cashInc
@@ -78,20 +78,11 @@ transaction ResidentToBank {
 }
 
 transaction ResidentToUtility {
-    o Double coinsValue
+    o Double utilityEnergyRate
     o Double energyValue       
     --> Coins coinsInc
     --> Coins coinsDec
     --> Energy energyInc
     --> Energy energyDec
 }
-
-
-transaction ResidentToResident2 {
-    o Double coinsValue
-    o Double energyValue       
-    --> Resident resident1
-    --> Resident resident2
-}
-
 

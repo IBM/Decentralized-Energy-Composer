@@ -20,7 +20,7 @@ export class BankService {
     constructor(private residentService: DataService<Bank>, private coinsService: DataService<Coins>, private cashService: DataService<Cash>) {
     };
 
-    //resident functions
+    //get bank functions
     public getAllBanks(): Observable<Bank[]> {
         return this.residentService.getAll(this.BANK);
     }

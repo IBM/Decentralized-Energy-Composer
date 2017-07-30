@@ -1,0 +1,38 @@
+
+query selectResidents {
+  description: "Select all residents"
+  statement:
+      SELECT org.decentralized.energy.network.Resident
+}
+
+query selectBanks {
+  description: "Select all banks"
+  statement:
+      SELECT org.decentralized.energy.network.Bank
+}
+
+query selectUtilityCompanies {
+  description: "Select all utility companies"
+  statement:
+      SELECT org.decentralized.energy.network.UtilityCompany
+}
+
+query selectCoins {
+  description: "Select all coin assets"
+  statement:
+      SELECT org.decentralized.energy.network.Coins
+}
+
+query selectEnergy {
+  description: "Select all energy assets"
+  statement:
+      SELECT org.decentralized.energy.network.Energy
+}
+
+query selectCash {
+  description: "Select all cash assets"
+  statement:
+      SELECT org.decentralized.energy.network.Cash
+}
+
+
