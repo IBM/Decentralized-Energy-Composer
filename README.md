@@ -62,7 +62,7 @@ composer archive create -a dist/decentralized-energy-network.bna --sourceType di
 The `composer archive create` command has created a file called `decentralized-energy-network.bna` in the `dist` folder.
 
 
-### 4. Deploy to Fabric
+## 4. Deploy to Fabric
 
 Now, we are ready to deploy the BNA file to Hyperledger Fabric:
 
@@ -77,7 +77,7 @@ You can verify that the network has been deployed by typing:
 composer network ping -n decentralized-energy-network -p hlfv1 -i admin -s adminpw
 ```
 
-5. [Run Application](#5-run-applications)
+##5. Run Application
 
 First, go into the `angular-app` folder and install the dependency:
 
@@ -98,16 +98,17 @@ The REST server to communicate with network is available here:
 `http://localhost:3000/explorer/`
 
 
-6. [Create Participants](#6-create-participants)
+##6. Create Participants
 
 Once the application opens, create participants and fill in dummy data.  Create Residents, Banks and Utility Companies.
 
 
-7. [Execute Transactions](#7-execute-transactions)
+##7. Execute Transactions
 
 Execute transactions manually between Residents, Resident and Bank, and Resident and Utility Company.  After executing transactions, ensure the participants account values are updated.
 
-Then at the end of your development session, stop fabric:
+
+At the end of your session, stop fabric:
 
 ```
 cd ~/fabric-tools
