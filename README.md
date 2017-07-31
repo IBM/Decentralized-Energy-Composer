@@ -7,7 +7,7 @@ Follow these steps to setup and run this developer journey. The steps are descri
 
 ## Prerequisite
 - [npm](https://www.npmjs.com/)
-- [Hyperledger Composer](https://www.python.org/downloads/)
+- [Hyperledger Composer](https://hyperledger.github.io/composer/installing/development-tools.html)
 
 
 ## Steps
@@ -15,7 +15,7 @@ Follow these steps to setup and run this developer journey. The steps are descri
 2. [Setup Fabric](#2-setup-fabric)
 3. [Generate the Business Network Archive](#3-generate-the-business-network-archive)
 4. [Deploy to Fabric](#4-deploy-to-fabric)
-5. [Run Application](#5-run-applications)
+5. [Run Application](#5-run-application)
 6. [Create Participants](#6-create-participants)
 7. [Execute Transactions](#7-execute-transactions)
 
