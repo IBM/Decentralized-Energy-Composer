@@ -17,36 +17,17 @@ export class CoinsComponent implements OnInit {
   private currentId;
 	private errorMessage;
 
-  
       coinsID = new FormControl("", Validators.required);
-  
       value = new FormControl("", Validators.required);
-  
       ownerID = new FormControl("", Validators.required);
-  
       ownerEntity = new FormControl("", Validators.required);
-  
-
 
   constructor(private serviceCoins:CoinsService, fb: FormBuilder) {
     this.myForm = fb.group({
-    
-        
           coinsID:this.coinsID,
-        
-    
-        
           value:this.value,
-        
-    
-        
           ownerID:this.ownerID,
-        
-    
-        
           ownerEntity:this.ownerEntity
-        
-    
     });
   };
 
@@ -82,43 +63,17 @@ export class CoinsComponent implements OnInit {
 
     this.asset = {
       $class: "org.decentralized.energy.network.Coins",
-      
-        
           "coinsID":this.coinsID.value,
-        
-      
-        
           "value":this.value.value,
-        
-      
-        
           "ownerID":this.ownerID.value,
-        
-      
-        
           "ownerEntity":this.ownerEntity.value
-        
-      
     };
 
     this.myForm.setValue({
-      
-        
           "coinsID":null,
-        
-      
-        
           "value":null,
-        
-      
-        
           "ownerID":null,
-        
-      
-        
           "ownerEntity":null
-        
-      
     });
 
     return this.serviceCoins.addAsset(this.asset)
@@ -126,23 +81,11 @@ export class CoinsComponent implements OnInit {
     .then(() => {
 			this.errorMessage = null;
       this.myForm.setValue({
-      
-        
           "coinsID":null,
-        
-      
-        
           "value":null,
-        
-      
-        
-          "ownerID":null,
-        
-      
-        
+          "ownerID":null,        
           "ownerEntity":null 
         
-      
       });
     })
     .catch((error) => {
@@ -158,30 +101,10 @@ export class CoinsComponent implements OnInit {
 
    updateAsset(form: any): Promise<any> {
     this.asset = {
-      $class: "org.decentralized.energy.network.Coins",
-      
-        
-          
-        
-    
-        
-          
-            "value":this.value.value,
-          
-        
-    
-        
-          
-            "ownerID":this.ownerID.value,
-          
-        
-    
-        
-          
-            "ownerEntity":this.ownerEntity.value
-          
-        
-    
+      $class: "org.decentralized.energy.network.Coins",          
+            "value":this.value.value,          
+            "ownerID":this.ownerID.value,          
+            "ownerEntity":this.ownerEntity.value          
     };
 
     return this.serviceCoins.updateAsset(form.get("coinsID").value,this.asset)
@@ -233,28 +156,12 @@ export class CoinsComponent implements OnInit {
     .toPromise()
     .then((result) => {
 			this.errorMessage = null;
-      let formObject = {
-        
-          
+      let formObject = {        
             "coinsID":null,
-          
-        
-          
             "value":null,
-          
-        
-          
             "ownerID":null,
-          
-        
-          
             "ownerEntity":null 
-          
-        
       };
-
-
-
       
         if(result.coinsID){
           formObject.coinsID = result.coinsID;
@@ -300,23 +207,10 @@ export class CoinsComponent implements OnInit {
 
   resetForm(): void{
     this.myForm.setValue({
-      
-        
           "coinsID":null,
-        
-      
-        
           "value":null,
-        
-      
-        
           "ownerID":null,
-        
-      
-        
-          "ownerEntity":null 
-        
-      
+          "ownerEntity":null         
       });
   }
 

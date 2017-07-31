@@ -19,40 +19,20 @@ export class EnergyComponent implements OnInit {
 
   
       energyID = new FormControl("", Validators.required);
-  
       units = new FormControl("", Validators.required);
-  
       value = new FormControl("", Validators.required);
-  
       ownerID = new FormControl("", Validators.required);
-  
       ownerEntity = new FormControl("", Validators.required);
   
 
-
   constructor(private serviceEnergy:EnergyService, fb: FormBuilder) {
     this.myForm = fb.group({
-    
-        
           energyID:this.energyID,
-        
-    
-        
           units:this.units,
-        
-    
-        
           value:this.value,
-        
-    
-        
           ownerID:this.ownerID,
-        
-    
-        
           ownerEntity:this.ownerEntity
         
-    
     });
   };
 
@@ -88,51 +68,19 @@ export class EnergyComponent implements OnInit {
 
     this.asset = {
       $class: "org.decentralized.energy.network.Energy",
-      
-        
           "energyID":this.energyID.value,
-        
-      
-        
           "units":this.units.value,
-        
-      
-        
           "value":this.value.value,
-        
-      
-        
           "ownerID":this.ownerID.value,
-        
-      
-        
-          "ownerEntity":this.ownerEntity.value
-        
-      
+          "ownerEntity":this.ownerEntity.value        
     };
 
-    this.myForm.setValue({
-      
-        
+    this.myForm.setValue({      
           "energyID":null,
-        
-      
-        
           "units":null,
-        
-      
-        
           "value":null,
-        
-      
-        
           "ownerID":null,
-        
-      
-        
           "ownerEntity":null
-        
-      
     });
 
     return this.serviceEnergy.addAsset(this.asset)
@@ -140,27 +88,12 @@ export class EnergyComponent implements OnInit {
     .then(() => {
 			this.errorMessage = null;
       this.myForm.setValue({
-      
-        
           "energyID":null,
-        
-      
-        
           "units":null,
-        
-      
-        
           "value":null,
-        
-      
-        
           "ownerID":null,
-        
-      
-        
           "ownerEntity":null 
         
-      
       });
     })
     .catch((error) => {
@@ -177,35 +110,10 @@ export class EnergyComponent implements OnInit {
    updateAsset(form: any): Promise<any> {
     this.asset = {
       $class: "org.decentralized.energy.network.Energy",
-      
-        
-          
-        
-    
-        
-          
             "units":this.units.value,
-          
-        
-    
-        
-          
             "value":this.value.value,
-          
-        
-    
-        
-          
             "ownerID":this.ownerID.value,
-          
-        
-    
-        
-          
             "ownerEntity":this.ownerEntity.value
-          
-        
-    
     };
 
     return this.serviceEnergy.updateAsset(form.get("energyID").value,this.asset)
@@ -258,31 +166,12 @@ export class EnergyComponent implements OnInit {
     .then((result) => {
 			this.errorMessage = null;
       let formObject = {
-        
-          
             "energyID":null,
-          
-        
-          
             "units":null,
-          
-        
-          
             "value":null,
-          
-        
-          
             "ownerID":null,
-          
-        
-          
             "ownerEntity":null 
-          
-        
       };
-
-
-
       
         if(result.energyID){
           formObject.energyID = result.energyID;
@@ -334,27 +223,11 @@ export class EnergyComponent implements OnInit {
 
   resetForm(): void{
     this.myForm.setValue({
-      
-        
           "energyID":null,
-        
-      
-        
           "units":null,
-        
-      
-        
           "value":null,
-        
-      
-        
           "ownerID":null,
-        
-      
-        
           "ownerEntity":null 
-        
-      
       });
   }
 

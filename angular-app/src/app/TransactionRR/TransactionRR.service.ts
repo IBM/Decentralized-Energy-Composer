@@ -22,22 +22,22 @@ export class TransactionRRService {
     constructor(private residentService: DataService<Resident>, private coinsService: DataService<Coins>, private energyService: DataService<Energy>, private transferRRService: DataService<ResidentToResident>) {
     };
 
-    //Resident functions
+    //get all Residents
     public getAllResidents(): Observable<Resident[]> {
         return this.residentService.getAll(this.RESIDENT);
     }
 
-    //Energy functions
+    //get Energy asset
     public getEnergy(id: any): Observable<Energy> {
       return this.energyService.getSingle(this.ENERGY, id);
     }
 
-    //Coins functions
+    //get Coins asset
     public getCoins(id: any): Observable<Coins> {
       return this.coinsService.getSingle(this.COINS, id);
     }
    
-    //Resident to Resident function
+    //create Resident to Resident transaction
     public residentToResident(itemToAdd: any): Observable<ResidentToResident> {
       return this.transferRRService.add(this.RESIDENT_TO_RESIDENT, itemToAdd);
     }

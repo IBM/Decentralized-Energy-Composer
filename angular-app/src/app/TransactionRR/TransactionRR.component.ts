@@ -13,6 +13,7 @@ import 'rxjs/add/operator/toPromise';
 })
 export class TransactionRRComponent {
 
+  //defined rate
   private residentCoinsPerEnergy = 1;
   private residentEnergyPerCoin = (1 / this.residentCoinsPerEnergy).toFixed(2);  
   private coinsExchanged;
@@ -28,7 +29,6 @@ export class TransactionRRComponent {
   private consumerResident;
   
   private residentToResidentObj;
-
   private transactionID;
 
     producerResidentID = new FormControl("", Validators.required);
@@ -44,8 +44,8 @@ export class TransactionRRComponent {
 		  producerResidentID:this.producerResidentID,
 		  consumerResidentID:this.consumerResidentID,
 
-          energyValue:this.energyValue,
-          coinsValue:this.coinsValue,
+      energyValue:this.energyValue,
+      coinsValue:this.coinsValue,
     });
     
   };
@@ -59,6 +59,7 @@ export class TransactionRRComponent {
     
   }
 
+  //get all Residents
   loadAllResidents(): Promise<any> {
     let tempList = [];
     return this.serviceTransaction.getAllResidents()
@@ -83,12 +84,14 @@ export class TransactionRRComponent {
     });
   }
 
+  //execute transaction
   execute(form: any): Promise<any> {
           
     console.log(this.allResidents)
 
+    //get producer and consumer resident
     for (let resident of this.allResidents) {
-        console.log(resident.residentID); 
+      console.log(resident.residentID); 
       
       if(resident.residentID == this.producerResidentID.value){
         this.producerResident = resident;
@@ -103,6 +106,7 @@ export class TransactionRRComponent {
     console.log('Consumer Energy ID ' + this.consumerResident.energy);
     console.log('Consumer Coins ID ' + this.consumerResident.coins);
     
+    //identify energy and coins id which will be debited
     var splitted_energyID = this.producerResident.energy.split("#", 2); 
     var energyID = String(splitted_energyID[1]);
 
@@ -110,6 +114,8 @@ export class TransactionRRComponent {
     var coinsID = String(splitted_coinsID[1]);
         
     this.coinsExchanged = this.residentCoinsPerEnergy * this.energyValue.value;
+
+    //transaction object
     this.residentToResidentObj = {
       $class: "org.decentralized.energy.network.ResidentToResident",
       "residentEnergyRate": this.residentCoinsPerEnergy,
@@ -119,6 +125,8 @@ export class TransactionRRComponent {
       "energyInc": this.consumerResident.energy,
       "energyDec": this.producerResident.energy,         
     };
+
+    //chech consumer coins and producer energy assets for enough balance before creating transaction
     return this.serviceTransaction.getEnergy(energyID)
     .toPromise()
     .then((result) => {

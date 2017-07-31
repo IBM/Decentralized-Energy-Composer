@@ -57,9 +57,7 @@ export class UtilityCompanyComponent {
       });
   }
 
-  
-
-
+  //allow update name of Utility Company
   updateUtilityCompany(form: any): Promise<any> {
     
     console.log("update check");
@@ -89,7 +87,7 @@ export class UtilityCompanyComponent {
     });
   }
 
-
+  //delete Utility Company and the coins and energy assets associated to it
   deleteUtilityCompany(): Promise<any> {
 
     return this.serviceUtilityCompany.deleteUtilityCompany(this.currentId)
@@ -193,6 +191,7 @@ export class UtilityCompanyComponent {
     });
   }
 
+  //load all Utility Companies and the coins and energy assets associated to it 
   loadAll(): Promise<any>  {
     
     //retrieve all utilityCompanys
@@ -238,17 +237,15 @@ export class UtilityCompanyComponent {
         });
         
       }
-
       this.allUtilityCompanys = utilityCompanyList;
     });
 
   }
 
-
-
+  //add Utility Company participant
   addUtilityCompany(form: any): Promise<any> {
 
-    return this.createAssets()
+    return this.createAssetsUtility()
       .then(() => {           
         this.errorMessage = null;
         this.myForm.setValue({
@@ -269,7 +266,8 @@ export class UtilityCompanyComponent {
     });
   }
 
-  createAssets(): Promise<any> {
+  //create coins and energy assets associated with the Resident, followed by the Resident
+  createAssetsUtility(): Promise<any> {
 
     this.coins = {
       $class: "org.decentralized.energy.network.Coins",
@@ -278,8 +276,7 @@ export class UtilityCompanyComponent {
           "ownerID":this.utilityID.value,
           "ownerEntity":'UtilityCompany'
     };
-    //this.serviceUtilityCompany.addCoins(this.coins);
-
+    
     this.energy = {
       $class: "org.decentralized.energy.network.Energy",
           "energyID":"EN_" + this.utilityID.value,
@@ -288,8 +285,7 @@ export class UtilityCompanyComponent {
           "ownerID":this.utilityID.value,
           "ownerEntity":'UtilityCompany'        
     };
-    //this.serviceUtilityCompany.addEnergy(this.energy);
-        
+    
     this.utilityCompany = {
       $class: "org.decentralized.energy.network.UtilityCompany",
           "utilityID":this.utilityID.value,
@@ -297,9 +293,7 @@ export class UtilityCompanyComponent {
 
           "coins":"CO_" + this.utilityID.value,
           "energy":"EN_" + this.utilityID.value,
-      };
-    //this.serviceUtilityCompany.addUtilityCompany(this.utilityCompany)
-
+    };    
 
     return this.serviceUtilityCompany.addCoins(this.coins)
     .toPromise()

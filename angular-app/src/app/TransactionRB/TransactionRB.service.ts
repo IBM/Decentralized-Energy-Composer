@@ -25,27 +25,27 @@ export class TransactionRBService {
     constructor(private residentService: DataService<Resident>, private bankService: DataService<Bank>, private coinsService: DataService<Coins>, private cashService: DataService<Cash>, private transferRBService: DataService<ResidentToBank>) {
     };
 
-    //Resident functions
+    //get all Residents
     public getAllResidents(): Observable<Resident[]> {
         return this.residentService.getAll(this.RESIDENT);
     }
 
-    //UtilityCompany functions
+    //get all Banks
     public getAllBanks(): Observable<Bank[]> {
         return this.bankService.getAll(this.BANK);
     }
 
-    //Energy functions
+    //get Cash asset
     public getCash(id: any): Observable<Cash> {
       return this.cashService.getSingle(this.CASH, id);
     }
 
-    //Coins functions
+    //get Coins asset
     public getCoins(id: any): Observable<Coins> {
       return this.coinsService.getSingle(this.COINS, id);
     }
    
-    //Resident to Bank function
+    //create Resident to Bank transaction
     public residentToBank(itemToAdd: any): Observable<ResidentToBank> {
       return this.transferRBService.add(this.RESIDENT_TO_BANK, itemToAdd);
     }

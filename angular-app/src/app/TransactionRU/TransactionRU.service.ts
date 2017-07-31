@@ -24,27 +24,27 @@ export class TransactionRUService {
     constructor(private residentService: DataService<Resident>, private utilityCompanyService: DataService<UtilityCompany>, private coinsService: DataService<Coins>, private energyService: DataService<Energy>, private transferRRService: DataService<ResidentToUtility>) {
     };
 
-    //Resident functions
+    //get all Residents
     public getAllResidents(): Observable<Resident[]> {
         return this.residentService.getAll(this.RESIDENT);
     }
 
-    //UtilityCompany functions
+    //get all Utility Companies
     public getAllUtilityCompanys(): Observable<UtilityCompany[]> {
         return this.utilityCompanyService.getAll(this.UTILITYCOMPANY);
     }
 
-    //Energy functions
+    //get Energy asset
     public getEnergy(id: any): Observable<Energy> {
       return this.energyService.getSingle(this.ENERGY, id);
     }
 
-    //Coins functions
+    //get Coins asset
     public getCoins(id: any): Observable<Coins> {
       return this.coinsService.getSingle(this.COINS, id);
     }
    
-    //Resident to Utility function
+    //create Resident to Utility transaction
     public residentToUtility(itemToAdd: any): Observable<ResidentToUtility> {
       return this.transferRRService.add(this.RESIDENT_TO_UTILITY, itemToAdd);
     }

@@ -17,42 +17,21 @@ export class CashComponent implements OnInit {
   private currentId;
 	private errorMessage;
 
-  
       cashID = new FormControl("", Validators.required);
-  
       currency = new FormControl("", Validators.required);
-  
       value = new FormControl("", Validators.required);
-  
       ownerID = new FormControl("", Validators.required);
-  
       ownerEntity = new FormControl("", Validators.required);
   
 
-
   constructor(private serviceCash:CashService, fb: FormBuilder) {
     this.myForm = fb.group({
-    
-        
           cashID:this.cashID,
-        
-    
-        
           currency:this.currency,
-        
-    
-        
           value:this.value,
-        
-    
-        
           ownerID:this.ownerID,
-        
-    
-        
           ownerEntity:this.ownerEntity
         
-    
     });
   };
 
@@ -88,51 +67,19 @@ export class CashComponent implements OnInit {
 
     this.asset = {
       $class: "org.decentralized.energy.network.Cash",
-      
-        
           "cashID":this.cashID.value,
-        
-      
-        
           "currency":this.currency.value,
-        
-      
-        
           "value":this.value.value,
-        
-      
-        
           "ownerID":this.ownerID.value,
-        
-      
-        
           "ownerEntity":this.ownerEntity.value
-        
-      
     };
 
     this.myForm.setValue({
-      
-        
           "cashID":null,
-        
-      
-        
           "currency":null,
-        
-      
-        
           "value":null,
-        
-      
-        
           "ownerID":null,
-        
-      
-        
           "ownerEntity":null
-        
-      
     });
 
     return this.serviceCash.addAsset(this.asset)
@@ -140,27 +87,11 @@ export class CashComponent implements OnInit {
     .then(() => {
 			this.errorMessage = null;
       this.myForm.setValue({
-      
-        
           "cashID":null,
-        
-      
-        
           "currency":null,
-        
-      
-        
           "value":null,
-        
-      
-        
           "ownerID":null,
-        
-      
-        
           "ownerEntity":null 
-        
-      
       });
     })
     .catch((error) => {
@@ -177,35 +108,10 @@ export class CashComponent implements OnInit {
    updateAsset(form: any): Promise<any> {
     this.asset = {
       $class: "org.decentralized.energy.network.Cash",
-      
-        
-          
-        
-    
-        
-          
             "currency":this.currency.value,
-          
-        
-    
-        
-          
             "value":this.value.value,
-          
-        
-    
-        
-          
             "ownerID":this.ownerID.value,
-          
-        
-    
-        
-          
             "ownerEntity":this.ownerEntity.value
-          
-        
-    
     };
 
     return this.serviceCash.updateAsset(form.get("cashID").value,this.asset)
@@ -258,31 +164,12 @@ export class CashComponent implements OnInit {
     .then((result) => {
 			this.errorMessage = null;
       let formObject = {
-        
-          
             "cashID":null,
-          
-        
-          
             "currency":null,
-          
-        
-          
             "value":null,
-          
-        
-          
             "ownerID":null,
-          
-        
-          
             "ownerEntity":null 
-          
-        
       };
-
-
-
       
         if(result.cashID){
           formObject.cashID = result.cashID;
@@ -334,27 +221,12 @@ export class CashComponent implements OnInit {
 
   resetForm(): void{
     this.myForm.setValue({
-      
-        
           "cashID":null,
-        
-      
-        
           "currency":null,
-        
-      
-        
           "value":null,
-        
-      
-        
           "ownerID":null,
-        
-      
-        
           "ownerEntity":null 
         
-      
       });
   }
 

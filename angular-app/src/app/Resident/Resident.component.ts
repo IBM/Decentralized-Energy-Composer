@@ -69,7 +69,7 @@ export class ResidentComponent {
       });
   }
 
-
+  //allow update name of Resident
   updateResident(form: any): Promise<any> {
     
     console.log("update check");
@@ -101,7 +101,7 @@ export class ResidentComponent {
     });
   }
 
-
+  //delete Resident and the coins and cash assets associated to it
   deleteResident(): Promise<any> {
 
     return this.serviceResident.deleteResident(this.currentId)
@@ -219,6 +219,7 @@ export class ResidentComponent {
     });
   }
 
+  //load all Resident and the enregy, coins and cash assets associated to it 
   loadAll(): Promise<any>  {
     
     //retrieve all residents
@@ -284,11 +285,10 @@ export class ResidentComponent {
 
   }
 
-
-
+  //add Resident participant
   addResident(form: any): Promise<any> {
 
-    return this.createAssets()
+    return this.createAssetsResident()
       .then(() => {           
         this.errorMessage = null;
         this.myForm.setValue({
@@ -312,7 +312,8 @@ export class ResidentComponent {
     });
   }
 
-  createAssets(): Promise<any> {
+  //create coins, energy and cash assets associated with the Resident, followed by the Resident
+  createAssetsResident(): Promise<any> {
 
     this.coins = {
       $class: "org.decentralized.energy.network.Coins",

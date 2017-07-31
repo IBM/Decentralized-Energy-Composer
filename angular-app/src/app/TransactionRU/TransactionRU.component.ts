@@ -13,11 +13,11 @@ import 'rxjs/add/operator/toPromise';
 })
 export class TransactionRUComponent {
 
+  //defined rate
   private utilityCoinsPerEnergy = 1;
   private utilityEnergyPerCoins = (1 / this.utilityCoinsPerEnergy).toFixed(3);  
   private coinsExchanged;
   
-  private utilityRate;
   private energyValue;
 
 
@@ -42,11 +42,8 @@ export class TransactionRUComponent {
 
     formResidentID = new FormControl("", Validators.required);
 	  formUtilityID = new FormControl("", Validators.required); 
-
     action = new FormControl("", Validators.required); 
-
 	  value = new FormControl("", Validators.required);
-	  
   
   constructor(private serviceTransaction:TransactionRUService, fb: FormBuilder) {
       
@@ -54,9 +51,7 @@ export class TransactionRUComponent {
 		  
 		  formResidentID:this.formResidentID,
 		  formUtilityID:this.formUtilityID,
-
       action:this.action,
-
       value:this.value,
       
     });
@@ -72,6 +67,7 @@ export class TransactionRUComponent {
     
   }
 
+  //get all Residents
   loadAllResidents(): Promise<any> {
     let tempList = [];
     return this.serviceTransaction.getAllResidents()
@@ -96,6 +92,7 @@ export class TransactionRUComponent {
     });
   }
 
+  //get all Utility Companies
   loadAllUtilityCompanys(): Promise<any> {
     let tempList = [];
     return this.serviceTransaction.getAllUtilityCompanys()
@@ -120,19 +117,21 @@ export class TransactionRUComponent {
     });
   }
 
+  //execute transaction
   execute(form: any): Promise<any> {
           
     console.log(this.allResidents)
     console.log(this.allUtilityCompanys)
 
+    //get resident
     for (let resident of this.allResidents) {
-        console.log(resident.residentID); 
-      
+      console.log(resident.residentID);       
       if(resident.residentID == this.formResidentID.value){
         this.resident = resident;
       }     
     }
 
+    //get utility company
     for (let utilityCompany of this.allUtilityCompanys) {
         console.log(utilityCompany.utilityID); 
       
@@ -143,10 +142,10 @@ export class TransactionRUComponent {
 
     console.log('Action: ' + this.action.value)
 
+    //depending on action, identify energy and coins assets to be debited/credited
     if(this.action.value == 'buyEnergy') {
 
-        this.utilityRate = this.utilityCoinsPerEnergy;
-        this.energyValue = this.value.value * this.utilityCoinsPerEnergy;
+        this.energyValue = this.value.value;
 
         this.energyReceiverAsset = this.resident.energy;
         this.energyProducerAsset = this.utiltyCompany.energy;  
@@ -155,7 +154,6 @@ export class TransactionRUComponent {
     }
     else if(this.action.value == 'sellEnergy') {
 
-        this.utilityRate = this.utilityCoinsPerEnergy;
         this.energyValue = this.value.value;
 
         this.energyReceiverAsset = this.utiltyCompany.energy;
@@ -170,6 +168,7 @@ export class TransactionRUComponent {
     console.log('Consumer Energy ID ' + this.energyReceiverAsset);
     console.log('Consumer Coins ID ' + this.coinsDebitAsset);
 
+    //identify energy and coins id which will be debited
     var splitted_energyID = this.energyProducerAsset.split("#", 2); 
     var energyID = String(splitted_energyID[1]);
 
@@ -177,6 +176,8 @@ export class TransactionRUComponent {
     var coinsID = String(splitted_coinsID[1]);
         
     this.coinsExchanged = this.utilityCoinsPerEnergy * this.energyValue;
+
+    //transaction object
     this.residentToUtilityObj = {
       $class: "org.decentralized.energy.network.ResidentToUtility",
       "utilityEnergyRate": this.utilityCoinsPerEnergy,
@@ -186,6 +187,8 @@ export class TransactionRUComponent {
       "energyInc": this.energyReceiverAsset,
       "energyDec": this.energyProducerAsset
     };
+
+    //chech coins and energy assets for enough funds before creating transaction
     return this.serviceTransaction.getEnergy(energyID)
     .toPromise()
     .then((result) => {

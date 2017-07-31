@@ -13,11 +13,10 @@ import 'rxjs/add/operator/toPromise';
 })
 export class TransactionRBComponent {
   
+  //defined rate
   private bankCoinsPerCash = 10;
   private bankCashPerCoins = (1 / this.bankCoinsPerCash).toFixed(3);  
   private coinsExchanged;
-  
-  private bankRate;
   private cashValue;
   
   myForm: FormGroup;
@@ -31,7 +30,6 @@ export class TransactionRBComponent {
   private bank;
   
   private residentToBankObj;
-
   private transactionID;
 
   private cashCreditAsset;
@@ -41,9 +39,7 @@ export class TransactionRBComponent {
 
     formResidentID = new FormControl("", Validators.required);
 	  formBankID = new FormControl("", Validators.required); 
-
     action = new FormControl("", Validators.required); 
-
 	  value = new FormControl("", Validators.required);	  
   
   constructor(private serviceTransaction:TransactionRBService, fb: FormBuilder) {
@@ -52,15 +48,10 @@ export class TransactionRBComponent {
 		  
 		  formResidentID:this.formResidentID,
 		  formBankID:this.formBankID,
-
       action:this.action,
-
       value:this.value,
       
-    });
-
-    
-    
+    });   
   };
 
   ngOnInit(): void {
@@ -68,10 +59,10 @@ export class TransactionRBComponent {
     this.loadAllResidents()
     .then(() => {                     
             this.loadAllBanks();
-    });
-    
+    });    
   }
-
+  
+  //get all Residents
   loadAllResidents(): Promise<any> {
     let tempList = [];
     return this.serviceTransaction.getAllResidents()
@@ -96,6 +87,7 @@ export class TransactionRBComponent {
     });
   }
 
+  //get all Banks
   loadAllBanks(): Promise<any> {
     let tempList = [];
     return this.serviceTransaction.getAllBanks()
@@ -120,34 +112,33 @@ export class TransactionRBComponent {
     });
   }
 
+  //execute transaction
   execute(form: any): Promise<any> {
-      
     
     console.log(this.allResidents);
     console.log(this.allBanks);
 
+    //get resident
     for (let resident of this.allResidents) {
-        console.log(resident.residentID); 
-      
+      console.log(resident.residentID);       
       if(resident.residentID == this.formResidentID.value){
         this.resident = resident;
       }     
     }
 
+    //get bank
     for (let bank of this.allBanks) {
-        console.log(bank.bankID); 
-      
+      console.log(bank.bankID);       
       if(bank.bankID == this.formBankID.value){
         this.bank = bank;
       }     
     }
 
     console.log('Action: ' + this.action.value)
-  
 
+    //depending on action, identify cash and coins assets to be debited/credited
     if(this.action.value == 'getCash') {
 
-        this.bankRate = this.bankCoinsPerCash;
         this.cashValue = this.value.value;
 
         this.cashCreditAsset = this.resident.cash;
@@ -157,7 +148,6 @@ export class TransactionRBComponent {
     }
     else if(this.action.value == 'getCoins') {      
 
-        this.bankRate = this.bankCoinsPerCash;
         this.cashValue = this.value.value;
 
         this.cashCreditAsset = this.bank.cash;
@@ -171,6 +161,7 @@ export class TransactionRBComponent {
     console.log('Cash Credit Asset: ' + this.cashCreditAsset);
     console.log('Coins Debit Asset: ' + this.coinsDebitAsset);
 
+    //identify cash and coins id which will be debited
     var splitted_cashID = this.cashDebitAsset.split("#", 2); 
     var cashID = String(splitted_cashID[1]);
 
@@ -179,6 +170,7 @@ export class TransactionRBComponent {
 
     this.coinsExchanged = this.bankCoinsPerCash * this.cashValue;
   
+    //transaction object
     this.residentToBankObj = {
       $class: "org.decentralized.energy.network.ResidentToBank",
       "bankCashRate": this.bankCoinsPerCash,
@@ -188,6 +180,8 @@ export class TransactionRBComponent {
       "cashInc": this.cashCreditAsset,
       "cashDec": this.cashDebitAsset
     };
+
+    //chech coins and cash assets for enough funds before creating transaction
     return this.serviceTransaction.getCash(cashID)
     .toPromise()
     .then((result) => {
@@ -245,8 +239,6 @@ export class TransactionRBComponent {
         });
       }        
     });
-
   }
-
         
 }

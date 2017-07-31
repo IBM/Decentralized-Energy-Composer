@@ -21,16 +21,13 @@ export class BankComponent {
   private coins;
   private energy;
   private cash;
-
-  
+      
       bankID = new FormControl("", Validators.required);
       name = new FormControl("", Validators.required);      
       coinsValue = new FormControl("", Validators.required);      
       cashValue = new FormControl("", Validators.required);
       cashCurrency = new FormControl("", Validators.required);
       
-  
-
   constructor(private serviceBank:BankService, fb: FormBuilder) {
     this.myForm = fb.group({
          
@@ -61,7 +58,7 @@ export class BankComponent {
       });
   }
 
-  
+  //allow update name of Bank
   updateBank(form: any): Promise<any> {
     
     console.log("update check");
@@ -91,7 +88,7 @@ export class BankComponent {
     });
   }
 
-
+  //delete Bank and the coins and cash assets associated to it
   deleteBank(): Promise<any> {
 
     return this.serviceBank.deleteBank(this.currentId)
@@ -169,8 +166,7 @@ export class BankComponent {
     });
 
   }
-
-
+  
   loadAll_OnlyBanks(): Promise<any> {
     let tempList = [];
     return this.serviceBank.getAllBanks()
@@ -195,6 +191,7 @@ export class BankComponent {
     });
   }
 
+  //load all Banks and the coins and cash assets associated to it 
   loadAll(): Promise<any>  {
     
     //retrieve all banks
@@ -242,14 +239,12 @@ export class BankComponent {
 
       this.allBanks = bankList;
     });
-
   }
 
-
-
+  //add Bank participant
   addBank(form: any): Promise<any> {
 
-    return this.createAssets()
+    return this.createAssetsBank()
       .then(() => {           
         this.errorMessage = null;
         this.myForm.setValue({
@@ -270,7 +265,8 @@ export class BankComponent {
     });
   }
 
-  createAssets(): Promise<any> {
+  //create coins and cash assets associated with the Bank, followed by the Bank
+  createAssetsBank(): Promise<any> {
 
     this.coins = {
       $class: "org.decentralized.energy.network.Coins",
@@ -278,8 +274,7 @@ export class BankComponent {
           "value":this.coinsValue.value,
           "ownerID":this.bankID.value,
           "ownerEntity":'Bank'
-    };
-    //this.serviceBank.addCoins(this.coins);   
+    };    
 
     this.cash = {
       $class: "org.decentralized.energy.network.Cash",
@@ -289,8 +284,7 @@ export class BankComponent {
           "ownerID":this.bankID.value,
           "ownerEntity":'Bank'        
     };
-    //return this.serviceBank.addCash(this.cash)
-    
+        
     this.bank = {
       $class: "org.decentralized.energy.network.Bank",
           "bankID":this.bankID.value,
@@ -298,9 +292,8 @@ export class BankComponent {
 
           "coins":"CO_" + this.bankID.value,
           "cash":"CA_" + this.bankID.value
-      };
-    //this.serviceBank.addBank(this.bank)
-
+    };
+    
     return this.serviceBank.addCoins(this.coins)
     .toPromise()
 		.then(() => {    
@@ -317,10 +310,8 @@ export class BankComponent {
         })
 		  })   
 		});
-
   }
 
- 
 }
 
 

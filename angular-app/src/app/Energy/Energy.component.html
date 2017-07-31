@@ -8,56 +8,31 @@
       <form [formGroup]="myForm">
         <div class="modal-body">
 
-
-          
             <div class="form-group text-left">
               <label for="energyID">energyID</label>
-
-              
-                <input formControlName="energyID" type="text" class="form-control">
-              
-
+                <input formControlName="energyID" type="text" class="form-control">              
             </div>
           
             <div class="form-group text-left">
               <label for="units">units</label>
-
-              
-                <input formControlName="units" type="text" class="form-control">
-              
-
+                <input formControlName="units" type="text" class="form-control">              
             </div>
           
             <div class="form-group text-left">
               <label for="value">value</label>
-
-              
-                <input formControlName="value" type="number" step='any' class="form-control">
-              
-
+                <input formControlName="value" type="number" step='any' class="form-control">              
             </div>
           
             <div class="form-group text-left">
               <label for="ownerID">ownerID</label>
-
-              
-                <input formControlName="ownerID" type="text" class="form-control">
-              
-
+                <input formControlName="ownerID" type="text" class="form-control">              
             </div>
           
             <div class="form-group text-left">
               <label for="ownerEntity">ownerEntity</label>
-
-              
                   <textarea formControlName="ownerEntity" class="form-control" rows="3"></textarea>
-
-              
-
             </div>
           
-
-
         </div>
         <div class="modal-footer">
           <button (click)="addAsset(myForm);" type="submit" class="btn btn-success" data-dismiss="modal">Submit</button>
@@ -67,7 +42,6 @@
     </div>
   </div>
 </div>
-
 
 
 
@@ -81,55 +55,31 @@
       <form [formGroup]="myForm">
         <div class="modal-body">
 
-
-          
             <div class="form-group text-left">
               <label for="energyID">energyID</label>
-
-              
-                <input [ngModel]="energyID"formControlName="energyID" type="text" class="form-control">
-              
-
+                <input [ngModel]="energyID"formControlName="energyID" type="text" class="form-control">              
             </div>
           
             <div class="form-group text-left">
               <label for="units">units</label>
-
-              
-                <input [ngModel]="units"formControlName="units" type="text" class="form-control">
-              
-
+                <input [ngModel]="units"formControlName="units" type="text" class="form-control">              
             </div>
           
             <div class="form-group text-left">
               <label for="value">value</label>
-
-              
-                <input [ngModel]="value" formControlName="value" type="number" step='any' class="form-control">
-              
-
+                <input [ngModel]="value" formControlName="value" type="number" step='any' class="form-control">              
             </div>
           
             <div class="form-group text-left">
               <label for="ownerID">ownerID</label>
-
-              
-                <input [ngModel]="ownerID"formControlName="ownerID" type="text" class="form-control">
-              
-
+                <input [ngModel]="ownerID"formControlName="ownerID" type="text" class="form-control">            
             </div>
           
             <div class="form-group text-left">
               <label for="ownerEntity">ownerEntity</label>
-
-              
-                  <textarea [ngModel]="ownerEntity" formControlName="ownerEntity" class="form-control" rows="3"></textarea>
-              
-
+                  <textarea [ngModel]="ownerEntity" formControlName="ownerEntity" class="form-control" rows="3"></textarea>            
             </div>
           
-
-
         </div>
         <div class="modal-footer">
           <button (click)="updateAsset(myForm)" type="submit" class="btn btn-success" data-dismiss="modal">Submit</button>
@@ -139,7 +89,6 @@
     </div>
   </div>
 </div>
-
 
 
 <div class="modal fade" id="deleteAssetModal" tabindex="-1" role="dialog" aria-labelledby="deleteAssetModalLabel">
@@ -163,24 +112,12 @@
 </div>
 
 
-
-
-
-
-
-
-
-
-
 <div class="container">
 	<div *ngIf="errorMessage" class="alert alert-danger" role="alert">
 		<strong>Error:</strong> {{errorMessage}}
 	</div>
   <h1 id='assetName'>Energy Assets</h1>
-  <div class="row">
-    <!--div class="col-md-12 text-right">
-      <button (click)="resetForm()" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAssetModal">Add Asset</button>
-    </div-->
+  <div class="row">  
   </div>
   <br>
   <div class="row">
@@ -198,8 +135,7 @@
                 <th class="bc">Units</th>
             
                 <th class="bc">Value</th>
-                                        
-              <!--th class="info">Actions</th-->
+
           </tr>
         </thead>
         <tbody>
@@ -214,12 +150,7 @@
                 <td>{{asset.units}}</td>
             
                 <td>{{asset.value}}</td>
-                        
-            <!--td>
-              <button (click)="getForm(asset.energyID);" type="button" class="btn btn-success" data-toggle="modal" data-target="#updateAssetModal">Update Asset</button>
-
-              <button (click)="setId(asset.energyID);" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAssetModal">Delete Asset</button>
-            </td-->
+                                    
           </tr>
         </tbody>
       </table>
