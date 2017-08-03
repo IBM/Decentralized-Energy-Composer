@@ -222,8 +222,8 @@ describe('Decentralized Energy - Admin Identity', () => {
             
                                     
             // create the resident to resident transaction
-            const resident_to_resident = factory.newTransaction(NS, 'ResidentToResident');
-            resident_to_resident.residentEnergyRate = 1;
+            const resident_to_resident = factory.newTransaction(NS, 'EnergyToCoins');
+            resident_to_resident.energyRate = 1;
             resident_to_resident.energyValue = 10;
             resident_to_resident.coinsInc = factory.newRelationship(NS, 'Coins', 'CO_R1');
             resident_to_resident.coinsDec = factory.newRelationship(NS, 'Coins', 'CO_R2');
@@ -277,8 +277,8 @@ describe('Decentralized Energy - Admin Identity', () => {
         it('Resident should be able to exchange coins for cash through a transaction with Bank', () => {
                                                 
             // create the resident to bank transaction
-            const resident_to_bank = factory.newTransaction(NS, 'ResidentToBank');
-            resident_to_bank.bankCashRate = 10;
+            const resident_to_bank = factory.newTransaction(NS, 'CashToCoins');
+            resident_to_bank.cashRate = 10;
             resident_to_bank.cashValue = 20;
             resident_to_bank.coinsInc = factory.newRelationship(NS, 'Coins', 'CO_B1');
             resident_to_bank.coinsDec = factory.newRelationship(NS, 'Coins', 'CO_R1');
@@ -333,8 +333,8 @@ describe('Decentralized Energy - Admin Identity', () => {
         it('Resident should be able to exchange coins for energy through a transaction with Utility', () => {        
             
             // create the resident to utility company transaction
-            const resident_to_utility = factory.newTransaction(NS, 'ResidentToUtility');
-            resident_to_utility.utilityEnergyRate = 1;
+            const resident_to_utility = factory.newTransaction(NS, 'EnergyToCoins');
+            resident_to_utility.energyRate = 1;
             resident_to_utility.energyValue = 10;
             resident_to_utility.coinsInc = factory.newRelationship(NS, 'Coins', 'CO_U1');
             resident_to_utility.coinsDec = factory.newRelationship(NS, 'Coins', 'CO_R2');
@@ -637,7 +637,7 @@ describe('Resident Identity', () => {
 
     describe('#Residents Access', () => {
 
-        it('Residents should have access to all coins, energy and cash assets, no access to Bank or Utility Company Participants and only their own Resident record' , () => {
+        it('Residents should have read access to all coins, energy and cash assets, read access to other Residents, Banks and Utility Companies, and update only their own Resident record' , () => {
             
             return useIdentity(R2Identity)
                 .then(() => {
@@ -698,8 +698,8 @@ describe('Resident Identity', () => {
         it('Residents should be able to execute transactions with Residents' , () => {
             
             // create the resident to resident transaction
-            const resident_to_resident = factory.newTransaction(NS, 'ResidentToResident');
-            resident_to_resident.residentEnergyRate = 4;
+            const resident_to_resident = factory.newTransaction(NS, 'EnergyToCoins');
+            resident_to_resident.energyRate = 4;
             resident_to_resident.energyValue = 10;
             resident_to_resident.coinsInc = factory.newRelationship(NS, 'Coins', 'CO_R1');
             resident_to_resident.coinsDec = factory.newRelationship(NS, 'Coins', 'CO_R2');
@@ -757,8 +757,8 @@ describe('Resident Identity', () => {
         it('Residents should be able to execute transactions with Banks' , () => {
             
             // create the resident to resident transaction
-            const resident_to_bank = factory.newTransaction(NS, 'ResidentToBank');
-            resident_to_bank.bankCashRate = 2;
+            const resident_to_bank = factory.newTransaction(NS, 'CashToCoins');
+            resident_to_bank.cashRate = 2;
             resident_to_bank.cashValue = 20;
             resident_to_bank.coinsInc = factory.newRelationship(NS, 'Coins', 'CO_B1');
             resident_to_bank.coinsDec = factory.newRelationship(NS, 'Coins', 'CO_R1');
@@ -818,8 +818,8 @@ describe('Resident Identity', () => {
             
             
             // create the resident to utility company transaction
-            const resident_to_utility = factory.newTransaction(NS, 'ResidentToUtility');
-            resident_to_utility.utilityEnergyRate = 4;
+            const resident_to_utility = factory.newTransaction(NS, 'EnergyToCoins');
+            resident_to_utility.energyRate = 4;
             resident_to_utility.energyValue = 10;
             resident_to_utility.coinsInc = factory.newRelationship(NS, 'Coins', 'CO_U1');
             resident_to_utility.coinsDec = factory.newRelationship(NS, 'Coins', 'CO_R2');
@@ -874,7 +874,7 @@ describe('Resident Identity', () => {
 */
     describe('#Banks Access', () => {
 
-        it('Bank should have read only access to all coins, energy and cash assets, no access to Resident or Utility Company participants and access to their own Bank record' , () => {
+        it('Banks should have read only access to all coins and cash assets, read access to other Banks and Residents, and update access to their own Bank record' , () => {
             
             return useIdentity(B1Identity)
                 .then(() => {
@@ -900,7 +900,7 @@ describe('Resident Identity', () => {
                 })
                 .then((results) => {
                     // check results
-                    results.length.should.equal(1);                            
+                    results.length.should.equal(0);                            
                 })
                 .then(() => {
                     // use a query
@@ -933,7 +933,7 @@ describe('Resident Identity', () => {
 
     describe('#Utility Company Access', () => {
 
-        it('Utility Company should have read only access to all coins, energy and cash assets, no access to Resident or Bank participants and access to their own Bank record' , () => {
+        it('Utility Company should have read only access to all coins, and energy assets, read access to other Utilty Companies and Residents, and update access to their own Bank record' , () => {
             
             return useIdentity(U1Identity)
                 .then(() => {
@@ -951,7 +951,7 @@ describe('Resident Identity', () => {
                 })
                 .then((results) => {
                     // check results
-                    results.length.should.equal(1);                            
+                    results.length.should.equal(0);                            
                 })
                 .then(() => {
                     // use a query

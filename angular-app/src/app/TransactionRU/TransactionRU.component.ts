@@ -31,7 +31,7 @@ export class TransactionRUComponent {
   private resident;
   private utiltyCompany;
   
-  private residentToUtilityObj;
+  private energyToCoinsObj;
 
   private transactionID;
 
@@ -178,9 +178,9 @@ export class TransactionRUComponent {
     this.coinsExchanged = this.utilityCoinsPerEnergy * this.energyValue;
 
     //transaction object
-    this.residentToUtilityObj = {
-      $class: "org.decentralized.energy.network.ResidentToUtility",
-      "utilityEnergyRate": this.utilityCoinsPerEnergy,
+    this.energyToCoinsObj = {
+      $class: "org.decentralized.energy.network.EnergyToCoins",
+      "energyRate": this.utilityCoinsPerEnergy,
       "energyValue": this.energyValue,
       "coinsInc": this.coinsCreditAsset,
       "coinsDec": this.coinsDebitAsset,
@@ -188,7 +188,7 @@ export class TransactionRUComponent {
       "energyDec": this.energyProducerAsset
     };
 
-    //chech coins and energy assets for enough funds before creating transaction
+    //check coins and energy assets for enough funds before creating transaction
     return this.serviceTransaction.getEnergy(energyID)
     .toPromise()
     .then((result) => {
@@ -222,7 +222,7 @@ export class TransactionRUComponent {
           console.log('checkConsumerCoins: ' + checkConsumerCoins)
           if(checkConsumerCoins)
           {
-            this.serviceTransaction.residentToUtility(this.residentToUtilityObj)
+            this.serviceTransaction.energyToCoins(this.energyToCoinsObj)
             .toPromise()
             .then((result) => {
               this.errorMessage = null;

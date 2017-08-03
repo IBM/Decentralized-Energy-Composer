@@ -7,7 +7,7 @@ import { Resident } from '../org.decentralized.energy.network';
 import { Coins } from '../org.decentralized.energy.network';
 import { Energy } from '../org.decentralized.energy.network';
 
-import { ResidentToResident } from '../org.decentralized.energy.network';
+import { EnergyToCoins } from '../org.decentralized.energy.network';
 import 'rxjs/Rx';
 
 // Can be injected into a constructor
@@ -17,9 +17,9 @@ export class TransactionRRService {
 	  private RESIDENT: string = 'Resident';
     private ENERGY: string = 'Energy';
     private COINS: string = 'Coins';
-    private RESIDENT_TO_RESIDENT: string = 'ResidentToResident';
+    private ENERGY_TO_COINS: string = 'EnergyToCoins';
 
-    constructor(private residentService: DataService<Resident>, private coinsService: DataService<Coins>, private energyService: DataService<Energy>, private transferRRService: DataService<ResidentToResident>) {
+    constructor(private residentService: DataService<Resident>, private coinsService: DataService<Coins>, private energyService: DataService<Energy>, private energyToCoinsService: DataService<EnergyToCoins>) {
     };
 
     //get all Residents
@@ -37,9 +37,9 @@ export class TransactionRRService {
       return this.coinsService.getSingle(this.COINS, id);
     }
    
-    //create Resident to Resident transaction
-    public residentToResident(itemToAdd: any): Observable<ResidentToResident> {
-      return this.transferRRService.add(this.RESIDENT_TO_RESIDENT, itemToAdd);
+    //create Energy to Coins transaction
+    public energyToCoins(itemToAdd: any): Observable<EnergyToCoins> {
+      return this.energyToCoinsService.add(this.ENERGY_TO_COINS, itemToAdd);
     }
 
 }

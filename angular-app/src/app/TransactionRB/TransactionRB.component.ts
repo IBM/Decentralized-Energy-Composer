@@ -29,7 +29,7 @@ export class TransactionRBComponent {
   private resident;
   private bank;
   
-  private residentToBankObj;
+  private cashToCoinsObj;
   private transactionID;
 
   private cashCreditAsset;
@@ -171,9 +171,9 @@ export class TransactionRBComponent {
     this.coinsExchanged = this.bankCoinsPerCash * this.cashValue;
   
     //transaction object
-    this.residentToBankObj = {
-      $class: "org.decentralized.energy.network.ResidentToBank",
-      "bankCashRate": this.bankCoinsPerCash,
+    this.cashToCoinsObj = {
+      $class: "org.decentralized.energy.network.CashToCoins",
+      "cashRate": this.bankCoinsPerCash,
       "cashValue": this.cashValue,
       "coinsInc": this.coinsCreditAsset,
       "coinsDec": this.coinsDebitAsset,
@@ -214,7 +214,7 @@ export class TransactionRBComponent {
           console.log('check coins: ' + checkCoins)
           if(checkCoins)
           {           
-            this.serviceTransaction.residentToBank(this.residentToBankObj)
+            this.serviceTransaction.cashToCoins(this.cashToCoinsObj)
             .toPromise()
             .then((result) => {
               this.errorMessage = null;

@@ -33,6 +33,7 @@ enum OwnerEntity {
   o UtilityCompany
 }
 
+
 asset Coins identified by coinsID {
     o String coinsID
     o Double value
@@ -58,8 +59,8 @@ asset Cash identified by cashID {
 } 
 
 
-transaction ResidentToResident {
-    o Double residentEnergyRate
+transaction EnergyToCoins {
+    o Double energyRate
     o Double energyValue       
     --> Coins coinsInc
     --> Coins coinsDec
@@ -67,22 +68,11 @@ transaction ResidentToResident {
     --> Energy energyDec
 }
 
-
-transaction ResidentToBank {
-    o Double bankCashRate       
+transaction CashToCoins {
+    o Double cashRate       
     o Double cashValue    
     --> Coins coinsInc
     --> Coins coinsDec
     --> Cash cashInc
     --> Cash cashDec
 }
-
-transaction ResidentToUtility {
-    o Double utilityEnergyRate
-    o Double energyValue       
-    --> Coins coinsInc
-    --> Coins coinsDec
-    --> Energy energyInc
-    --> Energy energyDec
-}
-

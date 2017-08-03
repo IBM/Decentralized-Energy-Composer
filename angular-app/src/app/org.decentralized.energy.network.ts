@@ -48,28 +48,20 @@ import {Event} from './org.hyperledger.composer.system';
       ownerID: string;
       ownerEntity: OwnerEntity;
    }
-   export class ResidentToResident extends Transaction {
-      residentEnergyRate: number;
+   export class EnergyToCoins extends Transaction {
+      energyRate: number;
       energyValue: number;
       coinsInc: Coins;
       coinsDec: Coins;
       energyInc: Energy;
       energyDec: Energy;
    }
-   export class ResidentToBank extends Transaction {
-      bankCashRate: number;
+   export class CashToCoins extends Transaction {
+      cashRate: number;
       cashValue: number;
       coinsInc: Coins;
       coinsDec: Coins;
       cashInc: Cash;
       cashDec: Cash;
-   }
-   export class ResidentToUtility extends Transaction {
-      utilityEnergyRate: number;
-      energyValue: number;
-      coinsInc: Coins;
-      coinsDec: Coins;
-      energyInc: Energy;
-      energyDec: Energy;
-   }
+   }   
 // }
