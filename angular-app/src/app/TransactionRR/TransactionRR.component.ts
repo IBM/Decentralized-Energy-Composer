@@ -28,7 +28,7 @@ export class TransactionRRComponent {
   private producerResident;
   private consumerResident;
   
-  private residentToResidentObj;
+  private energyToCoinsObj;
   private transactionID;
 
     producerResidentID = new FormControl("", Validators.required);
@@ -116,9 +116,9 @@ export class TransactionRRComponent {
     this.coinsExchanged = this.residentCoinsPerEnergy * this.energyValue.value;
 
     //transaction object
-    this.residentToResidentObj = {
-      $class: "org.decentralized.energy.network.ResidentToResident",
-      "residentEnergyRate": this.residentCoinsPerEnergy,
+    this.energyToCoinsObj = {
+      $class: "org.decentralized.energy.network.EnergyToCoins",
+      "energyRate": this.residentCoinsPerEnergy,
       "energyValue": this.energyValue.value,
       "coinsInc": this.producerResident.coins,
       "coinsDec": this.consumerResident.coins,
@@ -161,7 +161,7 @@ export class TransactionRRComponent {
           console.log('checkConsumerCoins: ' + checkConsumerCoins)
           if(checkConsumerCoins)
           {           
-            this.serviceTransaction.residentToResident(this.residentToResidentObj)      
+            this.serviceTransaction.energyToCoins(this.energyToCoinsObj)      
             .toPromise()
             .then((result) => {
               this.errorMessage = null;

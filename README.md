@@ -1,6 +1,27 @@
-# Welcome to Decentralized Energy journey on Hyperledger Composer!
+# Decentralized Energy with Hyperledger Composer!
 
-In this developer journey, we will create a decentralized energy network using Hyperledger Composer.  The application demonstrates Blockchain transaction among participants.  The network consists of Residents, Banks and Utility Company.  The Residents can exchange coins for energy among each other.  The application assumes a pre-paid system where transactions occur after the energy is consumed and the values are updated.  The Resident can exchange coins for Fiat money (cash) with Banks on the network.  The Residents can transact coins for energy also with a Utility company on the network. 
+A key application of Blockchain being currently explored is a Decentralized Energy network. The idea stems from a neighborhood where certain Residents are producing energy through Solar panels or other means, and can sell excess energy to Residents needing energy. The transactions would be based on coins in each Resident's account. As per a pre-determined contract and rate, the coins would be debited from the consumer and credited to the producer, for a certain billing period. Each transaction would need to be atomic and added to a Blockchain ledger for trust and verification. The network can include Banks to transact coins for Fiat currency (USD). The network can have Utility Company who can buy or provide energy through the network.
+
+In this developer journey, we will create such a Blockchain application using Hyperledger Composer. The network consists of Residents, Banks and Utility Companies. Residents can exchange coins for energy among each other.  The application assumes a pre-paid system where transactions occur after the energy is consumed and the values are updated.  The Resident can exchange coins for Fiat money (USD) with Banks on the network.  The Residents can also transact coins for energy with a Utility company on the network.
+
+# Architecture Flow
+
+<p align="center">
+  <img width="800" height="200" src="arch.png">
+</p>
+
+1. The administrator interacts with Decentralized Energy UI comprising of Angular framework
+2. The application processes user requests to the network through a REST API.
+3. Implements requests to the Blockchain state database on Hyperledger Fabric v1
+4. The REST API is used to retrieve the state of the database
+5. The Angular framework gets the data through GET calls to the REST API
+
+# Included Components
+
+* Hyperledger Composer
+* Angular Framework
+* Loopback
+
 
 # Running the Application
 Follow these steps to setup and run this developer journey. The steps are described in detail below.
@@ -8,6 +29,7 @@ Follow these steps to setup and run this developer journey. The steps are descri
 ## Prerequisite
 - [npm](https://www.npmjs.com/)
 - [Hyperledger Composer](https://hyperledger.github.io/composer/installing/development-tools.html)
+- [Docker](https://www.docker.com/)
 
 
 ## Steps
@@ -23,7 +45,7 @@ Follow these steps to setup and run this developer journey. The steps are descri
 
 Clone the `Decentralized-Energy-Composer code` locally. In a terminal, run:
 
-`git clone https://github.com/raheelzubairy/Decentralized-Energy-Composer`
+`git clone https://github.com/IBM/Decentralized-Energy-Composer`
 
 ## 2. Setup Fabric
 
@@ -35,7 +57,7 @@ docker rm $(docker ps -aq)
 docker rmi $(docker images dev-* -q)
 ```
 
-Set Hyperledger Fabric version to v1.0-beta: 
+Set Hyperledger Fabric version to v1.0-beta:
 
 `export FABRIC_VERSION=hlfv1`
 
@@ -115,3 +137,10 @@ cd ~/fabric-tools
 ./stopFabric.sh
 ./teardownFabric.sh
 ```
+
+# Extending Journey
+
+This application demonstrates a basic idea of a decentralized energy network using Blockchain and can be expanded in several ways:
+* Adding specific permissions and participant access
+* Setting up real time transactions among participants
+* Integrating with IoT to read from power meter and distribute energy

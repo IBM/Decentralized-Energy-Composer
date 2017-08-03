@@ -8,7 +8,7 @@ import { Bank } from '../org.decentralized.energy.network';
 import { Coins } from '../org.decentralized.energy.network';
 import { Cash } from '../org.decentralized.energy.network';
 
-import { ResidentToBank } from '../org.decentralized.energy.network';
+import { CashToCoins } from '../org.decentralized.energy.network';
 
 import 'rxjs/Rx';
 
@@ -20,9 +20,9 @@ export class TransactionRBService {
     private BANK: string = 'Bank'; 
     private CASH: string = 'Cash';
     private COINS: string = 'Coins';
-    private RESIDENT_TO_BANK: string = 'ResidentToBank';
+    private CASH_TO_COINS: string = 'CashToCoins';
 
-    constructor(private residentService: DataService<Resident>, private bankService: DataService<Bank>, private coinsService: DataService<Coins>, private cashService: DataService<Cash>, private transferRBService: DataService<ResidentToBank>) {
+    constructor(private residentService: DataService<Resident>, private bankService: DataService<Bank>, private coinsService: DataService<Coins>, private cashService: DataService<Cash>, private cashToCoinsService: DataService<CashToCoins>) {
     };
 
     //get all Residents
@@ -45,9 +45,9 @@ export class TransactionRBService {
       return this.coinsService.getSingle(this.COINS, id);
     }
    
-    //create Resident to Bank transaction
-    public residentToBank(itemToAdd: any): Observable<ResidentToBank> {
-      return this.transferRBService.add(this.RESIDENT_TO_BANK, itemToAdd);
+    //create Cash to Coins transaction
+    public cashToCoins(itemToAdd: any): Observable<CashToCoins> {
+      return this.cashToCoinsService.add(this.CASH_TO_COINS, itemToAdd);
     }
 
 }
