@@ -7,7 +7,7 @@ In this developer journey, we will create such a Blockchain application using Hy
 # Architecture Flow
 
 <p align="center">
-  <img width="800" height="200" src="arch.png">
+  <img width="650" height="200" src="arch.png">
 </p>
 
 1. The administrator interacts with Decentralized Energy UI comprising of Angular framework
