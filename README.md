@@ -64,7 +64,7 @@ Set Hyperledger Fabric version to v1.0-beta:
 All the scripts will be in the directory `/fabric-tools`.  Start fabric and create profile:
 
 ```
-cd /fabric-tools
+cd fabric-tools/
 ./downloadFabric.sh
 ./startFabric.sh
 ./createComposerProfile.sh
