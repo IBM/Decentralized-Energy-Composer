@@ -27,10 +27,16 @@ In this developer journey, we will create such a Blockchain application using Hy
 Follow these steps to setup and run this developer journey. The steps are described in detail below.
 
 ## Prerequisite
-- [npm](https://www.npmjs.com/)
+- [Node](https://nodejs.org/en/) (version 6.x - note version 7 is not supported)
+- [npm](https://www.npmjs.com/)  (v3.x or v5.x)
+- [Docker](https://www.docker.com/) (Version 17.03 or higher)
 - [Hyperledger Composer](https://hyperledger.github.io/composer/installing/development-tools.html)
-- [Docker](https://www.docker.com/)
-
+  * To install composer cli
+    `npm install -g composer-cli`
+  * To install composer-rest-server
+    `npm install -g composer-rest-server`
+  * To install generator-hyperledger-composer
+    `npm install -g generator-hyperledger-composer`
 
 ## Steps
 1. [Clone the repo](#1-clone-the-repo)
@@ -115,6 +121,11 @@ npm start
 
 The application should now be running at:
 `http://localhost:4200`
+
+<div style='border: 4px solid #f00;'>
+  <img width="800" src="scrnshot.png">
+</div>
+</br>
 
 The REST server to communicate with network is available here:
 `http://localhost:3000/explorer/`
