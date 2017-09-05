@@ -122,10 +122,10 @@ npm start
 The application should now be running at:
 `http://localhost:4200`
 
-<p align="center">
+<div style='border: 4px'>
   <img width="800" src="scrnshot.png">
-</p>
-
+</div>
+</br>
 
 The REST server to communicate with network is available here:
 `http://localhost:3000/explorer/`
