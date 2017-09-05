@@ -122,7 +122,7 @@ npm start
 The application should now be running at:
 `http://localhost:4200`
 
-<div style='border: 4px'>
+<div style='border: 4px solid #f00;'>
   <img width="800" src="scrnshot.png">
 </div>
 </br>
