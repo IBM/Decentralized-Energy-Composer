@@ -14,8 +14,12 @@
     <br>
   </div>
 
-  <div class="row">
-    <h3>Performed Transactions</h3>
+  <div *ngIf="performedTransactions.length == 0 && systemTransactions.length == 0" class="row">
+      <h4>No transactions</h4>
+    </div>
+
+  <div *ngIf="performedTransactions.length > 0" class="row" >
+    <h4>Performed Transactions</h4>
     <table class="table table-striped">
       <thead>
         <tr>
@@ -48,7 +52,7 @@
     <br>
   </div>
 
-  <div class="row">
+  <div *ngIf="systemTransactions.length > 0" class="row">
     <h4>System Transactions</h4>
 
     <table class="table table-striped">
