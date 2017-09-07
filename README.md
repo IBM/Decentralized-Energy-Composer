@@ -27,15 +27,16 @@ In this developer journey, we will create such a Blockchain application using Hy
 Follow these steps to setup and run this developer journey. The steps are described in detail below.
 
 ## Prerequisite
-- [Node](https://nodejs.org/en/) (version 6.x - note version 7 is not supported)
-- [npm](https://www.npmjs.com/)  (v3.x or v5.x)
 - [Docker](https://www.docker.com/) (Version 17.03 or higher)
+- [npm](https://www.npmjs.com/)  (v3.x or v5.x)
+- [Node](https://nodejs.org/en/) (version 6.x - note version 7 is not supported)
+  * to install Node v6.x you can use [nvm](https://davidwalsh.name/nvm)
 - [Hyperledger Composer](https://hyperledger.github.io/composer/installing/development-tools.html)
-  * To install composer cli
+  * to install composer cli
     `npm install -g composer-cli`
-  * To install composer-rest-server
+  * to install composer-rest-server
     `npm install -g composer-rest-server`
-  * To install generator-hyperledger-composer
+  * to install generator-hyperledger-composer
     `npm install -g generator-hyperledger-composer`
 
 ## Steps
@@ -110,7 +111,7 @@ composer network ping -n decentralized-energy-network -p hlfv1 -i admin -s admin
 First, go into the `angular-app` folder and install the dependency:
 
 ```
-cd angular-app
+cd ../angular-app/
 npm install
 ```
 
@@ -122,8 +123,8 @@ npm start
 The application should now be running at:
 `http://localhost:4200`
 
-<div style='border: 4px solid #f00;'>
-  <img width="800" src="scrnshot.png">
+<div style='border: 2px solid #f00;'>
+  <img width="800" src="app_scrnshot.png">
 </div>
 </br>
 

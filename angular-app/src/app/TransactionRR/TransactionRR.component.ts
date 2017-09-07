@@ -18,7 +18,7 @@ export class TransactionRRComponent {
   private residentEnergyPerCoin = (1 / this.residentCoinsPerEnergy).toFixed(2);  
   private coinsExchanged;
   private checkResultProducerEnergy = true;
-  private checkResultConsumerCoins = true;;
+  private checkResultConsumerCoins = true;
 
   myForm: FormGroup;
   private errorMessage;

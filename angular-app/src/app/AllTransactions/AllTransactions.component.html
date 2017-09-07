@@ -1,0 +1,88 @@
+
+
+<div class="container align">
+
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+		<strong>Error:</strong> {{errorMessage}}
+	</div>
+
+  <div class="row">
+      <h2> Blockchain </h2>
+  </div>
+
+  <div class="row">
+    <br>
+  </div>
+
+  <div class="row">
+    <h3>Performed Transactions</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>
+            Transaction Type
+          </th>
+          <th>
+            Transaction ID
+          </th>         
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let transaction of performedTransactions">           
+          <td>
+            {{transaction.$class}}
+          </td>
+          <td>
+            {{transaction.transactionId}}
+          </td>
+          
+
+        </tr>
+      </tbody>
+    </table>
+        
+  </div>
+
+  <div class="row">
+    <br>
+    <br>
+  </div>
+
+  <div class="row">
+    <h4>System Transactions</h4>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>
+            Transaction Type
+          </th>
+          <th>
+            Transaction ID
+          </th>         
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let transaction of systemTransactions"> 
+          <td>
+            {{transaction.$class}}
+          </td>
+          <td>
+            {{transaction.transactionId}}
+          </td>
+          
+
+        </tr>
+      </tbody>
+    </table>
+    
+    <!-- p *ngFor="let transaction of allTransactions">{{transaction.transactionId}}</p-->    
+  </div>
+  
+  <div class="row">
+    <br>
+    <br>
+  </div>
+
+
+</div>

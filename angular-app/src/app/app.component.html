@@ -2,12 +2,24 @@
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand navfont" href="#">decentralized energy</a>
+
       
       
+
+      <!--a class="navbar-brand navfontAbout" [routerLink]="['/About']">About</a>
+      <a class="navbar-brand navfontAbout" [routerLink]="['/AllTransactions']">Blockchain</a-->
     </div>
     <ul class="nav navbar-nav navbar-right">
 
-      <a class="navbar-brand navfontAbout" [routerLink]="['/About']">About</a>
+        <li class="dropdown navfontAbout">
+            <a class="dropdown-toggle navfont" data-toggle="dropdown" href="#">Info
+              <span class="caret navfont"></span></a>
+            <ul class="dropdown-menu">
+              
+              <li><a [routerLink]="['/About']">About</a></li>
+              <li><a [routerLink]="['/AllTransactions']">Blockchain</a></li>              
+            </ul>
+          </li>
 
       <li class="dropdown">
         <a class="dropdown-toggle navfont" data-toggle="dropdown" href="#">Participants
@@ -48,6 +60,9 @@
           
         </ul>
       </li>
+
+      
+
     </ul>
   </div>
 </nav>
