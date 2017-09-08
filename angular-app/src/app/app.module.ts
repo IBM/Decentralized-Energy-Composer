@@ -21,6 +21,8 @@ import { TransactionRRComponent } from './TransactionRR/TransactionRR.component'
 import { TransactionRUComponent } from './TransactionRU/TransactionRU.component';
 import { TransactionRBComponent } from './TransactionRB/TransactionRB.component';
 
+import { AllTransactionsComponent } from './AllTransactions/AllTransactions.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,6 +32,8 @@ import { TransactionRBComponent } from './TransactionRB/TransactionRB.component'
     TransactionRRComponent,
     TransactionRUComponent,
     TransactionRBComponent,
+
+    AllTransactionsComponent,
 
     ResidentComponent,
     BankComponent,

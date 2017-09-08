@@ -61,6 +61,14 @@ export class DataService<Type> {
           .catch(this.handleError);
     }
 
+    public transactions(): Observable<Type[]> {
+        console.log('Get transactions ');
+
+        return this.http.get(this.actionUrl + 'system/transactions')        
+        .map(this.extractData)
+        .catch(this.handleError);
+    }
+
     private handleError(error: any): Observable<string> {
         // In a real world app, we might use a remote logging infrastructure
         // We'd also dig deeper into the error to get a better message
