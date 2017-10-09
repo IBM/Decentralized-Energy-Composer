@@ -16,8 +16,8 @@ export class AllTransactionsComponent {
   private errorMessage;
   private allTransactions;
 
-  private systemTransactions;
-  private performedTransactions;
+  private systemTransactions = [];
+  private performedTransactions = [];
 
   constructor(private serviceTransaction:AllTransactionsService, fb: FormBuilder) {
   
