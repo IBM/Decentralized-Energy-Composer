@@ -64,7 +64,8 @@ export class DataService<Type> {
     public transactions(): Observable<Type[]> {
         console.log('Get transactions ');
 
-        return this.http.get(this.actionUrl + 'system/transactions')        
+        //return this.http.get(this.actionUrl + 'system/transactions')
+        return this.http.get(this.actionUrl + 'system/historian')
         .map(this.extractData)
         .catch(this.handleError);
     }

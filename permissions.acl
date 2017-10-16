@@ -19,7 +19,7 @@ rule ResidentReadAccessResidents {
     description: "Allow residents read access to other residents"
     participant: "org.decentralized.energy.network.Resident"
     operation: READ
-    resource: "org.decentralized.energy.network.Resident"    
+    resource: "org.decentralized.energy.network.Resident"
     action: ALLOW
 }
 
@@ -28,7 +28,7 @@ rule ResidentReadAccessBanks {
     description: "Allow residents read access to other banks"
     participant: "org.decentralized.energy.network.Resident"
     operation: READ
-    resource: "org.decentralized.energy.network.Bank"    
+    resource: "org.decentralized.energy.network.Bank"
     action: ALLOW
 }
 
@@ -37,7 +37,7 @@ rule ResidentReadAccessUtilityCompanies {
     description: "Allow residents read access to other utility companies"
     participant: "org.decentralized.energy.network.Resident"
     operation: READ
-    resource: "org.decentralized.energy.network.UtilityCompany"    
+    resource: "org.decentralized.energy.network.UtilityCompany"
     action: ALLOW
 }
 
@@ -47,7 +47,7 @@ rule ResidentAccessCoinsRecord {
     description: "Allow residents read access to all coins assets"
     participant: "org.decentralized.energy.network.Resident"
     operation: READ
-    resource: "org.decentralized.energy.network.Coins"    
+    resource: "org.decentralized.energy.network.Coins"
     action: ALLOW
 }
 
@@ -56,7 +56,7 @@ rule ResidentAccessEnergyRecord {
     description: "Allow residents read access to all energy assets"
     participant: "org.decentralized.energy.network.Resident"
     operation: READ
-    resource: "org.decentralized.energy.network.Energy"    
+    resource: "org.decentralized.energy.network.Energy"
     action: ALLOW
 }
 
@@ -65,7 +65,7 @@ rule ResidentAccessCashRecord {
     description: "Allow residents read access to all cash assets"
     participant: "org.decentralized.energy.network.Resident"
     operation: READ
-    resource: "org.decentralized.energy.network.Cash"    
+    resource: "org.decentralized.energy.network.Cash"
     action: ALLOW
 }
 
@@ -85,7 +85,7 @@ rule BankReadAccessBanks {
     description: "Allow banks read access to other Banks"
     participant: "org.decentralized.energy.network.Bank"
     operation: READ
-    resource: "org.decentralized.energy.network.Bank"    
+    resource: "org.decentralized.energy.network.Bank"
     action: ALLOW
 }
 
@@ -94,7 +94,7 @@ rule BankReadAccessResidents {
     description: "Allow banks read access to other Residents"
     participant: "org.decentralized.energy.network.Bank"
     operation: READ
-    resource: "org.decentralized.energy.network.Resident"    
+    resource: "org.decentralized.energy.network.Resident"
     action: ALLOW
 }
 
@@ -103,7 +103,7 @@ rule BankAccessCoinsRecord {
     description: "Allow banks read access to all coins assets"
     participant: "org.decentralized.energy.network.Bank"
     operation: READ
-    resource: "org.decentralized.energy.network.Coins"    
+    resource: "org.decentralized.energy.network.Coins"
     action: ALLOW
 }
 
@@ -112,7 +112,7 @@ rule BankAccessCashRecord {
     description: "Allow banks read access to all cash assets"
     participant: "org.decentralized.energy.network.Bank"
     operation: READ
-    resource: "org.decentralized.energy.network.Cash"    
+    resource: "org.decentralized.energy.network.Cash"
     action: ALLOW
 }
 
@@ -132,7 +132,7 @@ rule UtilityCompanyReadAccessUtilityCompanies {
     description: "Allow utility companies read access to other Utility Companies"
     participant: "org.decentralized.energy.network.UtilityCompany"
     operation: READ
-    resource: "org.decentralized.energy.network.UtilityCompany"    
+    resource: "org.decentralized.energy.network.UtilityCompany"
     action: ALLOW
 }
 
@@ -141,7 +141,7 @@ rule UtilityCompanyReadAccessResidents {
     description: "Allow utility companies read access to other Residents"
     participant: "org.decentralized.energy.network.UtilityCompany"
     operation: READ
-    resource: "org.decentralized.energy.network.Resident"    
+    resource: "org.decentralized.energy.network.Resident"
     action: ALLOW
 }
 
@@ -150,7 +150,7 @@ rule UtilityCompanyAccessCoinsRecord {
     description: "Allow utility companies read access to all coins assets"
     participant: "org.decentralized.energy.network.UtilityCompany"
     operation: READ
-    resource: "org.decentralized.energy.network.Coins"    
+    resource: "org.decentralized.energy.network.Coins"
     action: ALLOW
 }
 
@@ -159,23 +159,30 @@ rule UtilityCompanyAccessEnergyRecord {
     description: "Allow utility companies read access to all energy assets"
     participant: "org.decentralized.energy.network.UtilityCompany"
     operation: READ
-    resource: "org.decentralized.energy.network.Energy"    
+    resource: "org.decentralized.energy.network.Energy"
     action: ALLOW
 }
 
-/*
-rule Default {
-    description: "Allow all participants access to all resources"
-    participant: "ANY"
-    operation: ALL
-    resource: "org.decentralized.energy.network.*"
-    action: ALLOW
-}
-*/
 rule SystemACL {
   description:  "System ACL to permit all access"
   participant: "org.hyperledger.composer.system.Participant"
   operation: ALL
   resource: "org.hyperledger.composer.system.**"
   action: ALLOW
+}
+
+rule NetworkAdminUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
+rule NetworkAdminSystem {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
 }

@@ -3,4 +3,5 @@ dist
 go
 lib
 node_modules
+angular-app
 out

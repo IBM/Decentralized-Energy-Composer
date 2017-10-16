@@ -7,7 +7,7 @@ In this developer journey, we will create such a Blockchain application using Hy
 # Architecture Flow
 
 <p align="center">
-  <img width="650" height="200" src="arch.png">
+  <img width="650" height="200" src="images/arch.png">
 </p>
 
 1. The administrator interacts with Decentralized Energy UI comprising of Angular framework
@@ -97,7 +97,7 @@ Now, we are ready to deploy the BNA file to Hyperledger Fabric:
 
 ```
 cd dist
-composer network deploy -a decentralized-energy-network.bna -p hlfv1 -i PeerAdmin -s randomString
+composer network deploy -a decentralized-energy-network.bna -p hlfv1 -i PeerAdmin -s randomString -A admin -S
 ```
 
 You can verify that the network has been deployed by typing:
@@ -124,7 +124,7 @@ The application should now be running at:
 `http://localhost:4200`
 
 <div style='border: 2px solid #f00;'>
-  <img width="800" src="app_scrnshot.png">
+  <img width="800" src="images/app_scrnshot.png">
 </div>
 </br>
 
@@ -156,3 +156,9 @@ This application demonstrates a basic idea of a decentralized energy network usi
 * Adding specific permissions and participant access
 * Setting up real time transactions among participants
 * Integrating with IoT to read from power meter and distribute energy
+
+
+# Journey links
+
+[Decentralized energy with Hyperledger Composer journey](https://developer.ibm.com/code/journey/decentralized-energy-hyperledger-composer/)<br />
+[Blockchain journeys](https://developer.ibm.com/code/journey/category/blockchain/)

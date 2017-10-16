@@ -1,13 +1,18 @@
 {
   "name": "fabric-dev-servers",
   "version": "0.0.5",
-  "description": "Helper Scripts to start Hyperledger Fabric v0.6 and v1.0 for development/test purposes",
+  "description": "Helper Scripts to start Hyperledger Fabric v1.0 for development/test purposes",
   "private": true,
-  "author": "Hyperledger",
-  "license": "Apache-2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hyperledger/composer-tools.git"
+  },
+  "author": "Hyperledger Composer",
+  "license": "Apache-2.0",
   "keywords": [
-    "Blockchain",
-    "Solutions"
+    "hyperledger",
+    "blockchain",
+    "solutions"
   ],
   "dependencies": {
   },

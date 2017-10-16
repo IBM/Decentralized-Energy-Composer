@@ -20,16 +20,16 @@ export class AllTransactionsComponent {
   private performedTransactions = [];
 
   constructor(private serviceTransaction:AllTransactionsService, fb: FormBuilder) {
-  
+
   };
 
 
   ngOnInit(): void {
-    
+
     this.loadAllTransactions();
-    
+
   }
-  
+
   //sort the objects on key
   sortByKey(array, key): Object[] {
     return array.sort(function(a, b) {
@@ -40,35 +40,31 @@ export class AllTransactionsComponent {
 
   //get all Residents
   loadAllTransactions(): Promise<any> {
-    
+
     let tempList = [];
     let systemList = [];
-    let performedList = [];    
+    let performedList = [];
 
     return this.serviceTransaction.getTransactions()
     .toPromise()
     .then((result) => {
-      result = this.sortByKey(result, 'timestamp');
+      result = this.sortByKey(result, 'transactionTimestamp');
 			this.errorMessage = null;
       result.forEach(transaction => {
         tempList.push(transaction);
 
         var importClass = transaction["$class"];
-        var importClassArray = importClass.split("."); 
+        var importClassArray = importClass.split(".");
 
         if(importClassArray[1] == 'hyperledger'){
-          //transaction["$class"] = importClassArray[importClassArray.length-1];
-          systemList.push(transaction);                    
+          systemList.push(transaction);
         }
         else {
-          //transaction["$class"] = importClassArray[importClassArray.length-1];
-          performedList.push(transaction);          
+          performedList.push(transaction);
         }
 
-        
-
       });
-      
+
       this.systemTransactions = systemList;
       this.performedTransactions = performedList;
       this.allTransactions = tempList;
@@ -89,5 +85,5 @@ export class AllTransactionsComponent {
     });
   }
 
-          
+
 }
