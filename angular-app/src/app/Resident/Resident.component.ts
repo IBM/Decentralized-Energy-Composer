@@ -306,6 +306,9 @@ export class ResidentComponent {
         if(error == 'Server error'){
             this.errorMessage = "Could not connect to REST server. Please check your configuration details";
         }
+        else if (error == '500 - Internal Server Error') {
+          this.errorMessage = "Input error";
+        }
         else{
             this.errorMessage = error;
         }
