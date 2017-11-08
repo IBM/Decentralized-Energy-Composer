@@ -37,19 +37,19 @@
 
 
 ## 步骤
-1.[克隆存储库](#1-clone-the-repo)
+1. [克隆存储库](#1-clone-the-repo)
 
-2.[设置 Fabric](#2-setup-fabric)
+2. [设置 Fabric](#2-setup-fabric)
 
-3.[生成业务网络归档文件](#3-generate-the-business-network-archive)
+3. [生成业务网络归档文件](#3-generate-the-business-network-archive)
 
-4.[部署到 Fabric](#4-deploy-to-fabric)
+4. [部署到 Fabric](#4-deploy-to-fabric)
 
-5.[运行应用程序](#5-run-application)
+5. [运行应用程序](#5-run-application)
 
-6.[创建参与者](#6-create-participants)
+6. [创建参与者](#6-create-participants)
 
-7.[执行交易](#7-execute-transactions)
+7. [执行交易](#7-execute-transactions)
 
 
 ## 1.克隆存储库
