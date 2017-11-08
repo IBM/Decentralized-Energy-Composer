@@ -28,7 +28,7 @@
 
 
 # 运行应用程序
-按照这些步骤来设置并运行这个开发人员学习之旅。下面详细介绍了这些步骤。
+按照这些步骤来设置并运行这个 Code Pattern。下面详细介绍了这些步骤。
 
 ## 前提条件
 - [npm](https://www.npmjs.com/)
@@ -38,12 +38,19 @@
 
 ## 步骤
 1.[克隆存储库](#1-clone-the-repo)
+
 2.[设置 Fabric](#2-setup-fabric)
+
 3.[生成业务网络归档文件](#3-generate-the-business-network-archive)
+
 4.[部署到 Fabric](#4-deploy-to-fabric)
+
 5.[运行应用程序](#5-run-application)
+
 6.[创建参与者](#6-create-participants)
+
 7.[执行交易](#7-execute-transactions)
+
 
 ## 1.克隆存储库
 
