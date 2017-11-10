@@ -159,7 +159,9 @@ This application demonstrates a basic idea of a decentralized energy network usi
 * Integrating with IoT to read from power meter and distribute energy
 
 
-# Journey links
+## Additional Resources
+* [Hyperledger Fabric Docs](http://hyperledger-fabric.readthedocs.io/en/latest/)
+* [Hyperledger Composer Docs](https://hyperledger.github.io/composer/introduction/introduction.html)
 
-[Decentralized energy with Hyperledger Composer journey](https://developer.ibm.com/code/journey/decentralized-energy-hyperledger-composer/)<br />
-[Blockchain journeys](https://developer.ibm.com/code/journey/category/blockchain/)
+## License
+[Apache 2.0](LICENSE)
