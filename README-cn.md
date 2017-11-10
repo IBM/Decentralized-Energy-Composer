@@ -8,7 +8,7 @@
 # 架构流程
 
 <p align="center">
-  <img width="650" height="200" src="arch.png">
+  <img width="650" height="200" src="images/arch.png">
 </p>
 
 1.管理员与一个包含 Angular 框架的去中心化能源用户界面进行交互。
