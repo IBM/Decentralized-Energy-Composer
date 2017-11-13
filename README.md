@@ -65,19 +65,18 @@ docker rm $(docker ps -aq)
 docker rmi $(docker images dev-* -q)
 ```
 
-Set Hyperledger Fabric version to v1.0-beta:
+Set Hyperledger Fabric version to v1.0:
 
 `export FABRIC_VERSION=hlfv1`
 
-All the scripts will be in the directory `/fabric-tools`.  Start fabric and create profile:
+All the scripts will be in the directory `/fabric-tools`.  Start fabric and create peer admin card:
 
 ```
 cd fabric-tools/
 ./downloadFabric.sh
 ./startFabric.sh
-./createComposerProfile.sh
+./createPeerAdminCard.sh
 ```
-
 
 ## 3. Generate the Business Network Archive
 
@@ -86,25 +85,36 @@ Next generate the Business Network Archive (BNA) file from the root directory:
 ```
 cd ../
 npm install
-composer archive create -a dist/decentralized-energy-network.bna --sourceType dir --sourceName .
 ```
 
-The `composer archive create` command has created a file called `decentralized-energy-network.bna` in the `dist` folder.
+The `composer archive create` command in `package.json` has created a file called `decentralized-energy-network.bna` in the `dist` folder.
 
 
 ## 4. Deploy to Fabric
 
-Now, we are ready to deploy the BNA file to Hyperledger Fabric:
+Now, we are ready to deploy the business network to Hyperledger Fabric. This requires the Hyperledger Composer chaincode to be installed on the peer,then the business network archive (.bna) must be sent to the peer, and a new participant, identity, and associated card must be created to be the network administrator. Finally, the network administrator business network card must be imported for use, and the network can then be pinged to check it is responding.
+
+First, install the composer runtime:
 
 ```
-cd dist
-composer network deploy -a decentralized-energy-network.bna -p hlfv1 -i PeerAdmin -s randomString -A admin -S
+cd dist/
+composer runtime install --card PeerAdmin@hlfv1 --businessNetworkName decentralized-energy-network
 ```
 
-You can verify that the network has been deployed by typing:
+Deploy the business network:
 
 ```
-composer network ping -n decentralized-energy-network -p hlfv1 -i admin -s adminpw
+composer network start --card PeerAdmin@hlfv1 --networkAdmin admin --networkAdminEnrollSecret adminpw --archiveFile decentralized-energy-network.bna --file networkadmin.card
+```
+
+Import the network administrator identity as a usable business network card:
+```
+composer card import --file networkadmin.card
+```
+
+Check that the business network has been deployed successfully, run the following command to ping the network:
+```
+composer network ping --card admin@decentralized-energy-network
 ```
 
 ## 5. Run Application

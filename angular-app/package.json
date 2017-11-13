@@ -8,7 +8,7 @@
   "scripts": {
     "ng": "ng",
 
-    "app": "composer-rest-server -n decentralized-energy-network -p hlfv1 -i admin -s adminpw -N never -P 3000",
+    "app": "composer-rest-server -c admin@decentralized-energy-network -n never -w true",
     "start": "concurrently \"ng serve --host 0.0.0.0\" \"npm run app\"",
 
     "lint": "tslint \"src/**/*.ts\"",
