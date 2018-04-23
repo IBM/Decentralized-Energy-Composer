@@ -32,7 +32,7 @@ This code pattern is for developers looking to start building Blockchain applica
 
 
 # Running the Application
-Follow these steps to setup and run this developer journey. The steps are described in detail below.
+Follow these steps to setup and run this code pattern. The steps are described in detail below.
 
 ## Prerequisite
 - Operating Systems: Ubuntu Linux 14.04 / 16.04 LTS (both 64-bit), or Mac OS 10.12
@@ -164,7 +164,7 @@ cd ~/fabric-tools
 ./teardownFabric.sh
 ```
 
-# Extending Journey
+# Extending Code Pattern
 
 This application demonstrates a basic idea of a decentralized energy network using Blockchain and can be expanded in several ways:
 * Adding specific permissions and participant access
