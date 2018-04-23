@@ -4,47 +4,48 @@ import { Observable } from 'rxjs/Observable';
 
 import { Resident } from '../org.decentralized.energy.network';
 import { UtilityCompany } from '../org.decentralized.energy.network';
-
 import { Coins } from '../org.decentralized.energy.network';
 import { Energy } from '../org.decentralized.energy.network';
-
 import { EnergyToCoins } from '../org.decentralized.energy.network';
+
 import 'rxjs/Rx';
 
 // Can be injected into a constructor
 @Injectable()
 export class TransactionRUService {
 
+    //define namespace strings for api calls
 	  private RESIDENT: string = 'Resident';
     private UTILITYCOMPANY: string = 'UtilityCompany'; 
     private ENERGY: string = 'Energy';
     private COINS: string = 'Coins';
     private ENERGY_TO_COINS: string = 'EnergyToCoins';
 
+    //use data.service.ts to create services to make API calls
     constructor(private residentService: DataService<Resident>, private utilityCompanyService: DataService<UtilityCompany>, private coinsService: DataService<Coins>, private energyService: DataService<Energy>, private energyToCoinsService: DataService<EnergyToCoins>) {
     };
 
-    //get all Residents
+    //get all resident objects on the blockchain network
     public getAllResidents(): Observable<Resident[]> {
         return this.residentService.getAll(this.RESIDENT);
     }
 
-    //get all Utility Companies
+    //get all utilty company objects on the blockchain network
     public getAllUtilityCompanys(): Observable<UtilityCompany[]> {
         return this.utilityCompanyService.getAll(this.UTILITYCOMPANY);
     }
 
-    //get Energy asset
+    //get energy asset by id
     public getEnergy(id: any): Observable<Energy> {
       return this.energyService.getSingle(this.ENERGY, id);
     }
 
-    //get Coins asset
+    //get coins asset by id
     public getCoins(id: any): Observable<Coins> {
       return this.coinsService.getSingle(this.COINS, id);
     }
    
-    //create Energy to Coins transaction
+    //create energy to coins transaction
     public energyToCoins(itemToAdd: any): Observable<EnergyToCoins> {
       return this.energyToCoinsService.add(this.ENERGY_TO_COINS, itemToAdd);
     }

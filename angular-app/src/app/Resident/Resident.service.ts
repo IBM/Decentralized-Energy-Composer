@@ -15,38 +15,43 @@ import 'rxjs/Rx';
 @Injectable()
 export class ResidentService {
 
-	
+    //define namespace strings for api calls
 		private RESIDENT: string = 'Resident';  
     private COINS: string = 'Coins';
     private ENERGY: string = 'Energy';
     private CASH: string = 'Cash';
-	
+
+    //use data.service.ts to create services to make API calls
     constructor(private residentService: DataService<Resident>, private coinsService: DataService<Coins>, private energyService: DataService<Energy>, private cashService: DataService<Cash>) {
     };
 
-    //resident functions
+    //get all resident objects on the blockchain network
     public getAllResidents(): Observable<Resident[]> {
         return this.residentService.getAll(this.RESIDENT);
     }
 
+    //get resident by id
     public getResident(id: any): Observable<Resident> {
       return this.residentService.getSingle(this.RESIDENT, id);
     }
 
+    //add resident
     public addResident(itemToAdd: any): Observable<Resident> {
       return this.residentService.add(this.RESIDENT, itemToAdd);
     }
 
+    //delete resident
     public deleteResident(id: any): Observable<Resident> {
       return this.residentService.delete(this.RESIDENT, id);
     }
 
+    //update resident
     public updateResident(id: any, itemToUpdate: any): Observable<Resident> {
       return this.residentService.update(this.RESIDENT, id, itemToUpdate);
     }
 
-
-    //coins functions
+    
+    //similar functions for coins asset
     public getAllCoins(): Observable<Coins[]> {
         return this.coinsService.getAll(this.COINS);
     }
@@ -69,7 +74,7 @@ export class ResidentService {
     }
 
 
-    //energy functions
+    //similar functions for energy asset
     public getAllEnergy(): Observable<Energy[]> {
         return this.energyService.getAll(this.ENERGY);
     }
@@ -91,7 +96,7 @@ export class ResidentService {
     }
 
 
-    //cash functions
+    //similar functions for cash asset
     public getAllCash(): Observable<Cash[]> {
         return this.cashService.getAll(this.CASH);
     }

@@ -8,33 +8,26 @@ import 'rxjs/Rx';
 @Injectable()
 export class CashService {
 
-	
+    //define namespace for api calls
 		private NAMESPACE: string = 'Cash';
-	
-
-
-
+  
+    //use data.service.ts to create services to make API calls
     constructor(private dataService: DataService<Cash>) {
     };
 
+    //get all cash asset objects on the blockchain network
     public getAll(): Observable<Cash[]> {
         return this.dataService.getAll(this.NAMESPACE);
     }
 
+    //get cash asset by id
     public getAsset(id: any): Observable<Cash> {
       return this.dataService.getSingle(this.NAMESPACE, id);
     }
 
+    //add cash asset
     public addAsset(itemToAdd: any): Observable<Cash> {
       return this.dataService.add(this.NAMESPACE, itemToAdd);
-    }
-
-    public updateAsset(id: any, itemToUpdate: any): Observable<Cash> {
-      return this.dataService.update(this.NAMESPACE, id, itemToUpdate);
-    }
-
-    public deleteAsset(id: any): Observable<Cash> {
-      return this.dataService.delete(this.NAMESPACE, id);
     }
 
 }

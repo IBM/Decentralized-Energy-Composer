@@ -1,21 +1,25 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-
 import { TransactionRRService } from './TransactionRR.service';
 import 'rxjs/add/operator/toPromise';
 
+//provide associated components
 @Component({
 	selector: 'app-TransactionRR',
 	templateUrl: './TransactionRR.component.html',
 	styleUrls: ['./TransactionRR.component.css'],
   	providers: [TransactionRRService]
 })
+
+//TransactionRRComponent class
 export class TransactionRRComponent {
 
-  //defined rate
+  //define rate of conversion
   private residentCoinsPerEnergy = 1;
   private residentEnergyPerCoin = (1 / this.residentCoinsPerEnergy).toFixed(2);  
+
+  //define variables
   private coinsExchanged;
   private checkResultProducerEnergy = true;
   private checkResultConsumerCoins = true;
@@ -31,25 +35,24 @@ export class TransactionRRComponent {
   private energyToCoinsObj;
   private transactionID;
 
-    producerResidentID = new FormControl("", Validators.required);
-	  consumerResidentID = new FormControl("", Validators.required); 
-
-	  energyValue = new FormControl("", Validators.required);
-	  coinsValue = new FormControl("", Validators.required);
+  //initialize form variables
+  producerResidentID = new FormControl("", Validators.required);
+	consumerResidentID = new FormControl("", Validators.required); 
+	energyValue = new FormControl("", Validators.required);
+	coinsValue = new FormControl("", Validators.required);
   
   constructor(private serviceTransaction:TransactionRRService, fb: FormBuilder) {
-      
-	  this.myForm = fb.group({
-		  
+    //intialize form  
+	  this.myForm = fb.group({		  
 		  producerResidentID:this.producerResidentID,
 		  consumerResidentID:this.consumerResidentID,
-
       energyValue:this.energyValue,
       coinsValue:this.coinsValue,
     });
     
   };
 
+  //on page initialize, load all residents
   ngOnInit(): void {
     this.transactionFrom  = false;
     this.loadAllResidents()
@@ -61,14 +64,22 @@ export class TransactionRRComponent {
 
   //get all Residents
   loadAllResidents(): Promise<any> {
+
+    //retrieve all residents in the tempList array
     let tempList = [];
+    
+    //call serviceTransaction to get all resident objects
     return this.serviceTransaction.getAllResidents()
     .toPromise()
     .then((result) => {
-			this.errorMessage = null;
+      this.errorMessage = null;
+      
+      //append tempList with the resident objects returned
       result.forEach(resident => {
         tempList.push(resident);
       });
+
+      //assign tempList to allResidents
       this.allResidents = tempList;
     })
     .catch((error) => {
@@ -87,12 +98,8 @@ export class TransactionRRComponent {
   //execute transaction
   execute(form: any): Promise<any> {
           
-    console.log(this.allResidents)
-
-    //get producer and consumer resident
-    for (let resident of this.allResidents) {
-      console.log(resident.residentID); 
-      
+    //loop through all residents, and get producer and consumer resident from user input
+    for (let resident of this.allResidents) {      
       if(resident.residentID == this.producerResidentID.value){
         this.producerResident = resident;
       }
@@ -100,11 +107,6 @@ export class TransactionRRComponent {
         this.consumerResident = resident;
       }
     }
-
-    console.log('Producer Energy ID ' + this.producerResident.energy);
-    console.log('Producer Coins ID ' + this.producerResident.coins);
-    console.log('Consumer Energy ID ' + this.consumerResident.energy);
-    console.log('Consumer Coins ID ' + this.consumerResident.coins);
     
     //identify energy and coins id which will be debited
     var splitted_energyID = this.producerResident.energy.split("#", 2); 
@@ -112,10 +114,11 @@ export class TransactionRRComponent {
 
     var splitted_coinsID = this.consumerResident.coins.split("#", 2); 
     var coinsID = String(splitted_coinsID[1]);
-        
+    
+    //calculate coins exchanges from the rate
     this.coinsExchanged = this.residentCoinsPerEnergy * this.energyValue.value;
 
-    //transaction object
+    //create transaction object
     this.energyToCoinsObj = {
       $class: "org.decentralized.energy.network.EnergyToCoins",
       "energyRate": this.residentCoinsPerEnergy,
@@ -126,11 +129,13 @@ export class TransactionRRComponent {
       "energyDec": this.producerResident.energy,         
     };
 
-    //chech consumer coins and producer energy assets for enough balance before creating transaction
+    //check consumer coins and producer energy assets for enough balance before creating transaction
+    //call serviceTransaction to get energy asset
     return this.serviceTransaction.getEnergy(energyID)
     .toPromise()
     .then((result) => {
       this.errorMessage = null;
+      //check if enough value
       if(result.value) {
         if ((result.value - this.energyValue.value) < 0 ){
           this.checkResultProducerEnergy = false;
@@ -141,13 +146,15 @@ export class TransactionRRComponent {
       }
     })
     .then((checkProducerEnergy) => {
-      console.log('checkEnergy: ' + checkProducerEnergy)
+      //if positive on sufficient energy, then check coins asset whether sufficient coins
       if(checkProducerEnergy)
-      {        
+      {
+        //call serviceTransaction to get coins asset        
         this.serviceTransaction.getCoins(coinsID)
         .toPromise()
         .then((result) => {
           this.errorMessage = null;
+          //check if enough value
           if(result.value) {
             if ((result.value - this.coinsExchanged) < 0 ){
               this.checkResultConsumerCoins = false;
@@ -158,9 +165,10 @@ export class TransactionRRComponent {
           }
         })
         .then((checkConsumerCoins) => {
-          console.log('checkConsumerCoins: ' + checkConsumerCoins)
+          //if positive on sufficient coins, then call transaction
           if(checkConsumerCoins)
-          {           
+          {
+            //call serviceTransaction call the energyToCoins transaction with energyToCoinsObj as parameter            
             this.serviceTransaction.energyToCoins(this.energyToCoinsObj)      
             .toPromise()
             .then((result) => {
@@ -185,7 +193,6 @@ export class TransactionRRComponent {
         });
       }        
     });
-
   }
           
 }

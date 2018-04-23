@@ -12,37 +12,42 @@ import 'rxjs/Rx';
 @Injectable()
 export class UtilityCompanyService {
 
-	
+    //define namespace strings for api calls
 		private UTILITYCOMPANY: string = 'UtilityCompany';  
     private COINS: string = 'Coins';
     private ENERGY: string = 'Energy';
-	
+  
+    //use data.service.ts to create services to make API calls
     constructor(private utilityCompanyService: DataService<UtilityCompany>, private coinsService: DataService<Coins>, private energyService: DataService<Energy>) {
     };
 
-    //utilitycompany functions
+    //get all utility company objects on the blockchain network
     public getAllUtilityCompanys(): Observable<UtilityCompany[]> {
         return this.utilityCompanyService.getAll(this.UTILITYCOMPANY);
     }
 
+    //get utility company by id
     public getUtilityCompany(id: any): Observable<UtilityCompany> {
       return this.utilityCompanyService.getSingle(this.UTILITYCOMPANY, id);
     }
 
+    //add utility company
     public addUtilityCompany(itemToAdd: any): Observable<UtilityCompany> {
       return this.utilityCompanyService.add(this.UTILITYCOMPANY, itemToAdd);
     }
 
+    //delete utility company
     public deleteUtilityCompany(id: any): Observable<UtilityCompany> {
       return this.utilityCompanyService.delete(this.UTILITYCOMPANY, id);
     }
 
+    //update resident
     public updateUtilityCompany(id: any, itemToUpdate: any): Observable<UtilityCompany> {
       return this.utilityCompanyService.update(this.UTILITYCOMPANY, id, itemToUpdate);
     }
 
 
-    //coins functions
+    //similar functions for coins asset
     public getAllCoins(): Observable<Coins[]> {
         return this.coinsService.getAll(this.COINS);
     }
@@ -65,7 +70,7 @@ export class UtilityCompanyService {
     }
 
 
-    //energy functions
+    //similar functions for energy asset
     public getAllEnergy(): Observable<Energy[]> {
         return this.energyService.getAll(this.ENERGY);
     }

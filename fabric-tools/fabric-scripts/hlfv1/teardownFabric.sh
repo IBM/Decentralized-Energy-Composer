@@ -14,6 +14,7 @@ cd "${DIR}"/composer
 ARCH=$ARCH docker-compose -f docker-compose.yml kill && docker-compose -f docker-compose.yml down
 
 # remove the local state
+#rm -fr ~/.composer
 #rm -rf ~/.composer-connection-profiles/hlfv1
 #rm -f ~/.composer-credentials/*
 

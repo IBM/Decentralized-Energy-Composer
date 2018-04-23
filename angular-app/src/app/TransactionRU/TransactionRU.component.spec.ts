@@ -9,6 +9,7 @@ import { Configuration } from '../configuration';
 import { DataService } from '../data.service';
 import { TransactionRUComponent } from './TransactionRU.component';
 import {TransactionRUService} from './TransactionRU.service';
+
 describe('TransactionComponent', () => {
   let component: TransactionRUComponent;
   let fixture: ComponentFixture<TransactionRUComponent>;
@@ -16,13 +17,13 @@ describe('TransactionComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TransactionRUComponent ],
-imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpModule
-  ],
-providers: [TransactionRUService,DataService,Configuration]
+      imports: [
+          BrowserModule,
+          FormsModule,
+          ReactiveFormsModule,
+          HttpModule
+        ],
+      providers: [TransactionRUService,DataService,Configuration]
     })
     .compileComponents();
   }));

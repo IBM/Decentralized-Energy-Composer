@@ -11,6 +11,7 @@ export class DataService<Type> {
     private actionUrl: string;
     private headers: Headers;
 
+    //get rest api configuration from configuration.ts
     constructor(private http: Http, private _configuration: Configuration) {
         this.actionUrl = _configuration.ServerWithApiUrl;
         this.headers = new Headers();
@@ -52,7 +53,7 @@ export class DataService<Type> {
           .map(this.extractData)
           .catch(this.handleError);
     }
-
+    
     public delete(ns: string, id: string): Observable<Type> {
         console.log('Delete ' + ns);
 
@@ -61,10 +62,10 @@ export class DataService<Type> {
           .catch(this.handleError);
     }
 
+    //get all transactions from system historian
     public transactions(): Observable<Type[]> {
         console.log('Get transactions ');
 
-        //return this.http.get(this.actionUrl + 'system/transactions')
         return this.http.get(this.actionUrl + 'system/historian')
         .map(this.extractData)
         .catch(this.handleError);

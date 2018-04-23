@@ -16,37 +16,36 @@
 
 const AdminConnection = require('composer-admin').AdminConnection;
 const BusinessNetworkConnection = require('composer-client').BusinessNetworkConnection;
-const BusinessNetworkDefinition = require('composer-common').BusinessNetworkDefinition;
-const IdCard = require('composer-common').IdCard;
-const MemoryCardStore = require('composer-common').MemoryCardStore;
+const { BusinessNetworkDefinition, CertificateUtil, IdCard } = require('composer-common');
 const path = require('path');
 
 require('chai').should();
 
+//declare namespace
 const NS = 'org.decentralized.energy.network';
 
-
+//describe test
 describe('Decentralized Energy - check transactions, access', () => {
 
-    // In-memory card store for testing so cards are not persisted to the file system
-    const cardStore = new MemoryCardStore();
+    // in-memory card store for testing so cards are not persisted to the file system
+    const cardStore = require('composer-common').NetworkCardStoreManager.getCardStore( { type: 'composer-wallet-inmemory' } );
 
-    // Embedded connection used for local testing
+    // embedded connection used for local testing
     const connectionProfile = {
         name: 'embedded',
-        type: 'embedded'
+        'x-type': 'embedded'
     };
 
-    // Name of the business network card containing the administrative identity for the business network
+    // name of the business network card containing the administrative identity for the business network
     const adminCardName = 'admin';
 
-    // Admin connection to the blockchain, used to deploy the business network
+    // admin connection to the blockchain, used to deploy the business network
     let adminConnection;
 
-    // This is the business network connection the tests will use.
+    // this is the business network connection the tests will use.
     let businessNetworkConnection;
 
-    // These are the identities 
+    // these are the identities 
     const R1Identity = 'R1i';
     const R2Identity = 'R2i';
     const B1Identity = 'B1i';
@@ -54,43 +53,37 @@ describe('Decentralized Energy - check transactions, access', () => {
 
     let businessNetworkName;
     let factory;
-    // These are a list of receieved events.
+    
+    // these are a list of receieved events.
     let events;
         
     
-    before(() => {
+    before(async () => {
+        // generate certificates for use with the embedded connection
+        const credentials = CertificateUtil.generate({ commonName: 'admin' });
 
-        // Embedded connection does not need real credentials
-        const credentials = {
-            certificate: 'FAKE CERTIFICATE',
-            privateKey: 'FAKE PRIVATE KEY'
-        };
-
-        // Identity used with the admin connection to deploy business networks
+        // identity used with the admin connection to deploy business networks
         const deployerMetadata = {
             version: 1,
-            userName: 'PeerAdmin1',
+            userName: 'PeerAdmin',
             roles: [ 'PeerAdmin', 'ChannelAdmin' ]
         };
         const deployerCard = new IdCard(deployerMetadata, connectionProfile);
         deployerCard.setCredentials(credentials);
-        const deployerCardName = 'PeerAdmin1';
+        const deployerCardName = 'PeerAdmin';
 
         adminConnection = new AdminConnection({ cardStore: cardStore });
 
-        return adminConnection.importCard(deployerCardName, deployerCard).then(() => {
-            return adminConnection.connect(deployerCardName);
-        });
-         
+        await adminConnection.importCard(deployerCardName, deployerCard);
+        await adminConnection.connect(deployerCardName);             
      });
 
      /**
      *
      * @param {String} cardName The card name to use for this identity
      * @param {Object} identity The identity details
-     * @returns {Promise} resolved when the card is imported
      */
-    function importCardForIdentity(cardName, identity) {
+    async function importCardForIdentity(cardName, identity) {
         const metadata = {
             userName: identity.userID,
             version: 1,
@@ -98,219 +91,205 @@ describe('Decentralized Energy - check transactions, access', () => {
             businessNetwork: businessNetworkName
         };
         const card = new IdCard(metadata, connectionProfile);
-        return adminConnection.importCard(cardName, card);
+        await adminConnection.importCard(cardName, card);
     }
 
-    // This is called before each test is executed.
-    beforeEach(() => {
+    // this is called before each test is executed.
+    beforeEach(async () => {
 
-        let businessNetworkDefinition;
+        // generate a business network definition from the project directory.
+        const businessNetworkDefinition = await BusinessNetworkDefinition.fromDirectory(path.resolve(__dirname, '..'));
 
-        // Generate a business network definition from the project directory.
-        return BusinessNetworkDefinition.fromDirectory(path.resolve(__dirname, '..'))
-            .then(definition => {
-                businessNetworkDefinition = definition;
-                businessNetworkName = definition.getName();
-                return adminConnection.install(businessNetworkName);
-            })
-            .then(() => {
-                const startOptions = {
-                    networkAdmins: [
-                        {
-                            userName: 'admin',
-                            enrollmentSecret: 'adminpw'
-                        }
-                    ]
-                };
-                return adminConnection.start(businessNetworkDefinition, startOptions);
-            }).then(adminCards => {
-                return adminConnection.importCard(adminCardName, adminCards.get('admin'));
-            })
-            .then(() => {
-                // Create and establish a business network connection
-                businessNetworkConnection = new BusinessNetworkConnection({ cardStore: cardStore });
-                events = [];
-                businessNetworkConnection.on('event', event => {
-                    events.push(event);
-                });
-                return businessNetworkConnection.connect(adminCardName);
-            })
-            .then(() => {
-                // Get the factory for the business network.
-                factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+        businessNetworkName = businessNetworkDefinition.getName();
+        await adminConnection.install(businessNetworkDefinition);
 
+        const startOptions = {
+            networkAdmins: [
+                {
+                    userName: 'admin',
+                    enrollmentSecret: 'adminpw'
+                }
+            ]
+        };
+        const adminCards = await adminConnection.start(businessNetworkName, businessNetworkDefinition.getVersion(), startOptions);
+        await adminConnection.importCard(adminCardName, adminCards.get('admin'));
 
-                // create 2 coins assets
-                const producer_coins = factory.newResource(NS, 'Coins', 'CO_R1');
-                producer_coins.value = 300;
-                producer_coins.ownerID = 'R1';
-                producer_coins.ownerEntity = 'Resident';
+        // create and establish a business network connection
+        businessNetworkConnection = new BusinessNetworkConnection({ cardStore: cardStore });
+        events = [];
+        businessNetworkConnection.on('event', event => {
+            events.push(event);
+        });
+        await businessNetworkConnection.connect(adminCardName);
 
-                const consumer_coins = factory.newResource(NS, 'Coins', 'CO_R2');
-                consumer_coins.value = 450;
-                consumer_coins.ownerID = 'R2';
-                consumer_coins.ownerEntity = 'Resident';
+        // get the factory for the business network.
+        factory = businessNetworkConnection.getBusinessNetwork().getFactory();
 
-                // create 2 energy assets
-                const producer_energy = factory.newResource(NS, 'Energy', 'EN_R1');
-                producer_energy.value = 35;
-                producer_energy.units = 'kwH';
-                producer_energy.ownerID = 'R1';
-                producer_energy.ownerEntity = 'Resident';
+        // create 2 coins assets
+        const producer_coins = factory.newResource(NS, 'Coins', 'CO_R1');
+        producer_coins.value = 300;
+        producer_coins.ownerID = 'R1';
+        producer_coins.ownerEntity = 'Resident';
 
-                const consumer_energy = factory.newResource(NS, 'Energy', 'EN_R2');
-                consumer_energy.value = 5;
-                consumer_energy.units = 'kwH';
-                consumer_energy.ownerID = 'R2';
-                consumer_energy.ownerEntity = 'Resident';
+        const consumer_coins = factory.newResource(NS, 'Coins', 'CO_R2');
+        consumer_coins.value = 450;
+        consumer_coins.ownerID = 'R2';
+        consumer_coins.ownerEntity = 'Resident';
 
-                // create 2 cash assets
-                const producer_cash = factory.newResource(NS, 'Cash', 'CA_R1');
-                producer_cash.value = 150;
-                producer_cash.currency = 'USD';
-                producer_cash.ownerID = 'R1';
-                producer_cash.ownerEntity = 'Resident';
+        // create 2 energy assets
+        const producer_energy = factory.newResource(NS, 'Energy', 'EN_R1');
+        producer_energy.value = 35;
+        producer_energy.units = 'kwH';
+        producer_energy.ownerID = 'R1';
+        producer_energy.ownerEntity = 'Resident';
 
-                const consumer_cash = factory.newResource(NS, 'Cash', 'CA_R2');
-                consumer_cash.value = 70;
-                consumer_cash.currency = 'USD';
-                consumer_cash.ownerID = 'R2';
-                consumer_cash.ownerEntity = 'Resident';
+        const consumer_energy = factory.newResource(NS, 'Energy', 'EN_R2');
+        consumer_energy.value = 5;
+        consumer_energy.units = 'kwH';
+        consumer_energy.ownerID = 'R2';
+        consumer_energy.ownerEntity = 'Resident';
 
-                // create residents
-                const R1 = factory.newResource(NS, 'Resident', 'R1');
-                R1.firstName = 'Carlos';
-                R1.lastName = 'Roca';
-                R1.coins = factory.newRelationship(NS, 'Coins', producer_coins.$identifier);
-                R1.cash = factory.newRelationship(NS, 'Cash', producer_energy.$identifier);
-                R1.energy = factory.newRelationship(NS, 'Energy', producer_cash.$identifier);
+        // create 2 cash assets
+        const producer_cash = factory.newResource(NS, 'Cash', 'CA_R1');
+        producer_cash.value = 150;
+        producer_cash.currency = 'USD';
+        producer_cash.ownerID = 'R1';
+        producer_cash.ownerEntity = 'Resident';
 
-                const R2 = factory.newResource(NS, 'Resident', 'R2');
-                R2.firstName = 'James';
-                R2.lastName = 'Jones';
-                R2.coins = factory.newRelationship(NS, 'Coins', consumer_coins.$identifier);
-                R2.cash = factory.newRelationship(NS, 'Cash', consumer_energy.$identifier);
-                R2.energy = factory.newRelationship(NS, 'Energy', consumer_cash.$identifier);  
+        const consumer_cash = factory.newResource(NS, 'Cash', 'CA_R2');
+        consumer_cash.value = 70;
+        consumer_cash.currency = 'USD';
+        consumer_cash.ownerID = 'R2';
+        consumer_cash.ownerEntity = 'Resident';
+
+        // create residents
+        const R1 = factory.newResource(NS, 'Resident', 'R1');
+        R1.firstName = 'Carlos';
+        R1.lastName = 'Roca';
+        R1.coins = factory.newRelationship(NS, 'Coins', producer_coins.$identifier);
+        R1.cash = factory.newRelationship(NS, 'Cash', producer_energy.$identifier);
+        R1.energy = factory.newRelationship(NS, 'Energy', producer_cash.$identifier);
+
+        const R2 = factory.newResource(NS, 'Resident', 'R2');
+        R2.firstName = 'James';
+        R2.lastName = 'Jones';
+        R2.coins = factory.newRelationship(NS, 'Coins', consumer_coins.$identifier);
+        R2.cash = factory.newRelationship(NS, 'Cash', consumer_energy.$identifier);
+        R2.energy = factory.newRelationship(NS, 'Energy', consumer_cash.$identifier);  
+        
+        // create bank coins asset
+        const bank_coins = factory.newResource(NS, 'Coins', 'CO_B1');
+        bank_coins.value = 5000;
+        bank_coins.ownerID = 'B1';
+        bank_coins.ownerEntity = 'Bank';            
+
+        // create bank cash asset
+        const bank_cash = factory.newResource(NS, 'Cash', 'CA_B1');
+        bank_cash.value = 7000;
+        bank_cash.currency = 'USD';
+        bank_cash.ownerID = 'B1';
+        bank_cash.ownerEntity = 'Bank';
+        
+        // create Bank
+        const B1 = factory.newResource(NS, 'Bank', 'B1');
+        B1.name = 'United Bank';            
+        B1.coins = factory.newRelationship(NS, 'Coins', bank_coins.$identifier);
+        B1.cash = factory.newRelationship(NS, 'Cash', bank_cash.$identifier);
+
+        //confirm the original values                
+        bank_coins.value.should.equal(5000);
+        bank_cash.value.should.equal(7000);
+
+        // create utility company coins asset
+        const utility_coins = factory.newResource(NS, 'Coins', 'CO_U1');
+        utility_coins.value = 5000;
+        utility_coins.ownerID = 'U1';
+        utility_coins.ownerEntity = 'UtilityCompany';            
+
+        // create utility energy asset
+        const utility_energy = factory.newResource(NS, 'Energy', 'EN_U1');
+        utility_energy.value = 1000;
+        utility_energy.units = 'kwh';
+        utility_energy.ownerID = 'U1';
+        utility_energy.ownerEntity = 'UtilityCompany';
+        
+        // create Utility Company
+        const U1 = factory.newResource(NS, 'UtilityCompany', 'U1');
+        U1.name = 'New Utility';            
+        U1.coins = factory.newRelationship(NS, 'Coins', utility_coins.$identifier);
+        U1.energy = factory.newRelationship(NS, 'Energy', utility_energy.$identifier);
+
+        //confirm the original values                
+        utility_coins.value.should.equal(5000);
+        utility_energy.value.should.equal(1000);
+        
+        // Get the coins registry
+        return businessNetworkConnection.getAssetRegistry(NS + '.Coins')
+            .then((assetRegistry) => {
+                // add coins to the coins asset registry.
+                return assetRegistry.addAll([producer_coins, consumer_coins, bank_coins, utility_coins])
                 
-                // create bank coins asset
-                const bank_coins = factory.newResource(NS, 'Coins', 'CO_B1');
-                bank_coins.value = 5000;
-                bank_coins.ownerID = 'B1';
-                bank_coins.ownerEntity = 'Bank';            
-
-                // create bank cash asset
-                const bank_cash = factory.newResource(NS, 'Cash', 'CA_B1');
-                bank_cash.value = 7000;
-                bank_cash.currency = 'USD';
-                bank_cash.ownerID = 'B1';
-                bank_cash.ownerEntity = 'Bank';
-                
-                // create Bank
-                const B1 = factory.newResource(NS, 'Bank', 'B1');
-                B1.name = 'United Bank';            
-                B1.coins = factory.newRelationship(NS, 'Coins', bank_coins.$identifier);
-                B1.cash = factory.newRelationship(NS, 'Cash', bank_cash.$identifier);
-
-                //confirm the original values                
-                bank_coins.value.should.equal(5000);
-                bank_cash.value.should.equal(7000);
-
-                // create utility company coins asset
-                const utility_coins = factory.newResource(NS, 'Coins', 'CO_U1');
-                utility_coins.value = 5000;
-                utility_coins.ownerID = 'U1';
-                utility_coins.ownerEntity = 'UtilityCompany';            
-
-                // create utility energy asset
-                const utility_energy = factory.newResource(NS, 'Energy', 'EN_U1');
-                utility_energy.value = 1000;
-                utility_energy.units = 'kwh';
-                utility_energy.ownerID = 'U1';
-                utility_energy.ownerEntity = 'UtilityCompany';
-                
-                // create Utility Company
-                const U1 = factory.newResource(NS, 'UtilityCompany', 'U1');
-                U1.name = 'New Utility';            
-                U1.coins = factory.newRelationship(NS, 'Coins', utility_coins.$identifier);
-                U1.energy = factory.newRelationship(NS, 'Energy', utility_energy.$identifier);
-
-                //confirm the original values                
-                utility_coins.value.should.equal(5000);
-                utility_energy.value.should.equal(1000);
-                
-                // Get the coins registry
-                return businessNetworkConnection.getAssetRegistry(NS + '.Coins')
-                    .then((assetRegistry) => {
-                        // add coins to the coins asset registry.
-                        return assetRegistry.addAll([producer_coins, consumer_coins, bank_coins, utility_coins])
-                        
-                        .then(() => {
-                            // Get the energy registry
-                            return businessNetworkConnection.getAssetRegistry(NS + '.Energy');
-                        })
-                        .then((assetRegistry) => {
-                            // add energy to the energy asset registry.
-                            return assetRegistry.addAll([producer_energy, consumer_energy, utility_energy]);
-                        })
-                        .then(() => {
-                            // Get the cash registry
-                            return businessNetworkConnection.getAssetRegistry(NS + '.Cash');
-                        })
-                        .then((assetRegistry) => {
-                            // add cash to the cash asset registry.
-                            return assetRegistry.addAll([producer_cash, consumer_cash, bank_cash]);
-                        })                       
-                        .then(() => {
-                            return businessNetworkConnection.getParticipantRegistry(NS + '.Resident');
-                        })
-                        .then((participantRegistry) => {
-                            // add resident
-                            return participantRegistry.addAll([R1, R2]);
-                        })
-                        .then(() => {
-                            return businessNetworkConnection.getParticipantRegistry(NS + '.Bank');
-                        })
-                        .then((participantRegistry) => {
-                            // add bank
-                            return participantRegistry.add(B1);
-                        })
-                        .then(() => {
-                            return businessNetworkConnection.getParticipantRegistry(NS + '.UtilityCompany');
-                        })
-                        .then((participantRegistry) => {
-                            // add utility company
-                            return participantRegistry.add(U1);
-                        });
-                        
-                    });
-
-            })
-            .then(() => {
-
-                // Issue the identities.
-                return businessNetworkConnection.issueIdentity('org.decentralized.energy.network.Resident#R1', 'resident1')
+                .then(() => {
+                    // Get the energy registry
+                    return businessNetworkConnection.getAssetRegistry(NS + '.Energy');
+                })
+                .then((assetRegistry) => {
+                    // add energy to the energy asset registry.
+                    return assetRegistry.addAll([producer_energy, consumer_energy, utility_energy]);
+                })
+                .then(() => {
+                    // Get the cash registry
+                    return businessNetworkConnection.getAssetRegistry(NS + '.Cash');
+                })
+                .then((assetRegistry) => {
+                    // add cash to the cash asset registry.
+                    return assetRegistry.addAll([producer_cash, consumer_cash, bank_cash]);
+                })                       
+                .then(() => {
+                    return businessNetworkConnection.getParticipantRegistry(NS + '.Resident');
+                })
+                .then((participantRegistry) => {
+                    // add resident
+                    return participantRegistry.addAll([R1, R2]);
+                })
+                .then(() => {
+                    return businessNetworkConnection.getParticipantRegistry(NS + '.Bank');
+                })
+                .then((participantRegistry) => {
+                    // add bank
+                    return participantRegistry.add(B1);
+                })
+                .then(() => {
+                    return businessNetworkConnection.getParticipantRegistry(NS + '.UtilityCompany');
+                })
+                .then((participantRegistry) => {
+                    // add utility company
+                    return participantRegistry.add(U1);
+                })
+                .then(() => {
+                    return businessNetworkConnection.issueIdentity('org.decentralized.energy.network.Resident#R1', 'resident1');
+                })
                 .then((identity) => {
                     return importCardForIdentity(R1Identity, identity);
-                    })
-                    .then(() => {
-                        //R1Identity = identity;
-                        return businessNetworkConnection.issueIdentity('org.decentralized.energy.network.Resident#R2', 'resident2');
-                    })
-                    .then((identity) => {
-                        return importCardForIdentity(R2Identity, identity);
-                    })
-                    .then(() => {                        
-                        return businessNetworkConnection.issueIdentity('org.decentralized.energy.network.Bank#B1', 'bank1');
-                    })
-                    .then((identity) => {
-                        return importCardForIdentity(B1Identity, identity);
-                    })
-                    .then(() => {                        
-                        return businessNetworkConnection.issueIdentity('org.decentralized.energy.network.UtilityCompany#U1', 'utility1');
-                    })
-                    .then((identity) => {
-                        return importCardForIdentity(U1Identity, identity);                        
-                    });
+                })
+                .then(() => {
+                    return businessNetworkConnection.issueIdentity('org.decentralized.energy.network.Resident#R2', 'resident2');
+                })
+                .then((identity) => {
+                    return importCardForIdentity(R2Identity, identity);
+                })
+                .then(() => {                        
+                    return businessNetworkConnection.issueIdentity('org.decentralized.energy.network.Bank#B1', 'bank1');
+                })
+                .then((identity) => {
+                    return importCardForIdentity(B1Identity, identity);
+                })
+                .then(() => {                        
+                    return businessNetworkConnection.issueIdentity('org.decentralized.energy.network.UtilityCompany#U1', 'utility1');
+                })
+                .then((identity) => {
+                    return importCardForIdentity(U1Identity, identity);                        
+                });
             });
     });
 

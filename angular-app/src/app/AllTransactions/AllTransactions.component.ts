@@ -26,6 +26,7 @@ export class AllTransactionsComponent {
 
   ngOnInit(): void {
 
+    //call to retrieve transactions
     this.loadAllTransactions();
 
   }
@@ -38,33 +39,41 @@ export class AllTransactionsComponent {
     });
   }
 
-  //get all Residents
+  //get all transactions
   loadAllTransactions(): Promise<any> {
 
+    //initialize arrays to collect performed and system transactions
     let tempList = [];
     let systemList = [];
     let performedList = [];
 
+    //collect all transactions for display
     return this.serviceTransaction.getTransactions()
     .toPromise()
     .then((result) => {
+      
+      //sort the transactions by timestamp
       result = this.sortByKey(result, 'transactionTimestamp');
-			this.errorMessage = null;
+      this.errorMessage = null;
+      
+      //for each transaction, determine whether system transaction
       result.forEach(transaction => {
         tempList.push(transaction);
 
-        var importClass = transaction["$class"];
+        //split the transactionType string
+        var importClass = transaction["transactionType"];
         var importClassArray = importClass.split(".");
 
+        //if `hyperledger` string in the transactionType, then add to systemList, otherwise performedList
         if(importClassArray[1] == 'hyperledger'){
           systemList.push(transaction);
         }
         else {
           performedList.push(transaction);
         }
-
       });
 
+      //update object
       this.systemTransactions = systemList;
       this.performedTransactions = performedList;
       this.allTransactions = tempList;

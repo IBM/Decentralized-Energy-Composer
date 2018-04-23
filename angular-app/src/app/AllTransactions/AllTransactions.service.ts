@@ -15,7 +15,7 @@ export class AllTransactionsService {
     constructor(private transactionService: DataService<Object> ) {
     };
 
-    //get all Residents
+    //get all transactions
     public getTransactions(): Observable<Object[]> {
         return this.transactionService.transactions();
     }

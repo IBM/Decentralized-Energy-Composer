@@ -1,6 +1,6 @@
 {
   "name": "fabric-dev-servers",
-  "version": "0.0.9",
+  "version": "0.0.11",
   "description": "Helper Scripts to start Hyperledger Fabric v1.0 for development/test purposes",
   "private": true,
   "repository": {
@@ -15,6 +15,7 @@
     "solutions"
   ],
   "scripts": {
+    "prepare": "npm run build-archives",
     "build-archives": "gulp --gulpfile .travis/gulp.js"
   },
   "devDependencies": {

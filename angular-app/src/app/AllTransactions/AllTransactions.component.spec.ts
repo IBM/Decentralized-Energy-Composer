@@ -16,13 +16,13 @@ describe('TransactionComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ AllTransactionsComponent ],
-imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpModule
-  ],
-providers: [AllTransactionsService,DataService,Configuration]
+      imports: [
+          BrowserModule,
+          FormsModule,
+          ReactiveFormsModule,
+          HttpModule
+        ],
+      providers: [AllTransactionsService,DataService,Configuration]
     })
     .compileComponents();
   }));

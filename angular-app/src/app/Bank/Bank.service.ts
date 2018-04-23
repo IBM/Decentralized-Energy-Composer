@@ -12,35 +12,39 @@ import 'rxjs/Rx';
 @Injectable()
 export class BankService {
 
-	
+    //define namespace strings for api calls
 		private BANK: string = 'Bank';  
     private COINS: string = 'Coins';   
     private CASH: string = 'Cash';
-	
+  
+    //use data.service.ts to create services to make API calls
     constructor(private residentService: DataService<Bank>, private coinsService: DataService<Coins>, private cashService: DataService<Cash>) {
     };
 
-    //get bank functions
+    //get all bank objects on the blockchain network
     public getAllBanks(): Observable<Bank[]> {
         return this.residentService.getAll(this.BANK);
     }
 
+    //get bank by id
     public getBank(id: any): Observable<Bank> {
       return this.residentService.getSingle(this.BANK, id);
     }
 
+    //add bank
     public addBank(itemToAdd: any): Observable<Bank> {
       return this.residentService.add(this.BANK, itemToAdd);
     }
 
+    //delete bank
     public deleteBank(id: any): Observable<Bank> {
       return this.residentService.delete(this.BANK, id);
     }
 
+    //update bank
     public updateBank(id: any, itemToUpdate: any): Observable<Bank> {
       return this.residentService.update(this.BANK, id, itemToUpdate);
     }
-
 
     //coins functions
     public getAllCoins(): Observable<Coins[]> {
