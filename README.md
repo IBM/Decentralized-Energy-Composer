@@ -164,12 +164,19 @@ cd ~/fabric-tools
 ./teardownFabric.sh
 ```
 
-# Extending Code Pattern
+## Extending Code Pattern
 
 This application demonstrates a basic idea of a decentralized energy network using Blockchain and can be expanded in several ways:
 * Adding specific permissions and participant access
 * Setting up real time transactions among participants
 * Integrating with IoT to read from power meter and distribute energy
+
+## Deploy to IBM Cloud
+
+The blockchain network can be deployed to IBM Cloud. 
+You can use the [IBM Blockchain platform](https://console.bluemix.net/catalog/services/blockchain) and start for free under `Starter Membership Plan`.  Follow [these instructions](https://ibm-blockchain.github.io/platform-deployment/) to deploy the business network to IBM Blockchain platform.
+
+To deploy the Blockchain network as kubernetes cluster follow the instructions [here](https://ibm-blockchain.github.io/setup/).  The guide walks through creating a free cluster on IBM Cloud and deploying your business network.  This will provide the IP address for the composer rest server to be used by the application.
 
 
 ## Additional Resources
