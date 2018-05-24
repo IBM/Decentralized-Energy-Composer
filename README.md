@@ -61,7 +61,10 @@ Follow these steps to setup and run this code pattern. The steps are described i
 
 Clone the `Decentralized-Energy-Composer code` locally. In a terminal, run:
 
-`git clone https://github.com/IBM/Decentralized-Energy-Composer`
+```
+git clone https://github.com/IBM/Decentralized-Energy-Composer
+cd Decentralized-Energy-Composer
+```
 
 ## 2. Setup Fabric
 
@@ -125,7 +128,7 @@ composer network ping --card admin@decentralized-energy-network
 First, go into the `angular-app` folder and install the dependency:
 
 ```
-cd ../angular-app/
+cd angular-app/
 npm install
 ```
 
