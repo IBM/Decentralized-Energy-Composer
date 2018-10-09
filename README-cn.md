@@ -174,10 +174,7 @@ cd ~/fabric-tools
 ## 部署到 IBM Cloud
 
 可以将区块链网络部署到 IBM Cloud。 
-可以使用 [IBM Blockchain Platform](https://console.bluemix.net/catalog/services/blockchain) 并在 `Starter Membership Plan` 下免费开始部署。  遵循[这些指示信息](https://ibm-blockchain.github.io/platform-deployment/) 将业务网络部署到 IBM Blockchain Platform。
-
-要将区块链网络部署为 kubernetes 集群，请遵循[此处](https://ibm-blockchain.github.io/setup/) 的指示信息。  该指南演示了如何在 IBM Cloud 上创建一个免费集群并部署您的业务网络。  这将提供要供应用程序使用的 composer rest 服务器的 IP 地址。
-
+可以使用 [IBM Blockchain Platform](https://console.bluemix.net/catalog/services/blockchain) 并在 `Starter Membership Plan` 下免费开始部署。  遵循[这些指示信息](https://console.bluemix.net/docs/services/blockchain/develop_starter.html#deploying-a-business-network) 将业务网络部署到 IBM Blockchain Platform。
 
 ## 附加资源
 * [Hyperledger Fabric 文档](http://hyperledger-fabric.readthedocs.io/en/latest/)
