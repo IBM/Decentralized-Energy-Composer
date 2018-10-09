@@ -177,10 +177,7 @@ This application demonstrates a basic idea of a decentralized energy network usi
 ## Deploy to IBM Cloud
 
 The blockchain network can be deployed to IBM Cloud. 
-You can use the [IBM Blockchain platform](https://console.bluemix.net/catalog/services/blockchain) and start for free under `Starter Membership Plan`.  Follow [these instructions](https://ibm-blockchain.github.io/platform-deployment/) to deploy the business network to IBM Blockchain platform.
-
-To deploy the Blockchain network as kubernetes cluster follow the instructions [here](https://ibm-blockchain.github.io/setup/).  The guide walks through creating a free cluster on IBM Cloud and deploying your business network.  This will provide the IP address for the composer rest server to be used by the application.
-
+You can use the [IBM Blockchain platform](https://console.bluemix.net/catalog/services/blockchain) and start for free under `Starter Membership Plan`.  Follow [these instructions](https://console.bluemix.net/docs/services/blockchain/develop_starter.html#deploying-a-business-network) to deploy the business network to IBM Blockchain platform.
 
 ## Additional Resources
 * [Hyperledger Fabric Docs](http://hyperledger-fabric.readthedocs.io/en/latest/)
