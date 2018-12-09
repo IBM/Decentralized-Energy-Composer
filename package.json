@@ -79,5 +79,8 @@
     "branches": 100,
     "functions": 100,
     "lines": 100
+  },
+  "dependencies": {
+    "composer-runtime": "^0.19.19"
   }
 }

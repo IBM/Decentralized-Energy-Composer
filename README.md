@@ -42,7 +42,7 @@ Follow these steps to setup and run this code pattern. The steps are described i
   * to install specific Node version you can use [nvm](https://davidwalsh.name/nvm)
 - [Hyperledger Composer](https://hyperledger.github.io/composer/installing/development-tools.html)
   * to install composer cli
-    `npm install -g composer-cli`
+    `npm install -g composer-cli@0.19`
   * to install composer-rest-server
     `npm install -g composer-rest-server`
   * to install generator-hyperledger-composer
@@ -107,7 +107,7 @@ First, install the business network:
 composer network install --card PeerAdmin@hlfv1 --archiveFile decentralized-energy-network@0.1.15.bna
 ```
 
-Start the business network:
+Start the business network(ensure you are using composer-cli 0.19):
 
 ```
 composer network start --networkName decentralized-energy-network --networkVersion 0.1.15 --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1 --file networkadmin.card
