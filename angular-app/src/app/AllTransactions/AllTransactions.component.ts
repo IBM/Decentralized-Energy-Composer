@@ -16,20 +16,21 @@ export class AllTransactionsComponent {
   private errorMessage;
   private allTransactions;
 
-  private systemTransactions;
-  private performedTransactions;
+  private systemTransactions = [];
+  private performedTransactions = [];
 
   constructor(private serviceTransaction:AllTransactionsService, fb: FormBuilder) {
-  
+
   };
 
 
   ngOnInit(): void {
-    
+
+    //call to retrieve transactions
     this.loadAllTransactions();
-    
+
   }
-  
+
   //sort the objects on key
   sortByKey(array, key): Object[] {
     return array.sort(function(a, b) {
@@ -38,37 +39,41 @@ export class AllTransactionsComponent {
     });
   }
 
-  //get all Residents
+  //get all transactions
   loadAllTransactions(): Promise<any> {
-    
+
+    //initialize arrays to collect performed and system transactions
     let tempList = [];
     let systemList = [];
-    let performedList = [];    
+    let performedList = [];
 
+    //collect all transactions for display
     return this.serviceTransaction.getTransactions()
     .toPromise()
     .then((result) => {
-      result = this.sortByKey(result, 'timestamp');
-			this.errorMessage = null;
+      
+      //sort the transactions by timestamp
+      result = this.sortByKey(result, 'transactionTimestamp');
+      this.errorMessage = null;
+      
+      //for each transaction, determine whether system transaction
       result.forEach(transaction => {
         tempList.push(transaction);
 
-        var importClass = transaction["$class"];
-        var importClassArray = importClass.split("."); 
+        //split the transactionType string
+        var importClass = transaction["transactionType"];
+        var importClassArray = importClass.split(".");
 
+        //if `hyperledger` string in the transactionType, then add to systemList, otherwise performedList
         if(importClassArray[1] == 'hyperledger'){
-          //transaction["$class"] = importClassArray[importClassArray.length-1];
-          systemList.push(transaction);                    
+          systemList.push(transaction);
         }
         else {
-          //transaction["$class"] = importClassArray[importClassArray.length-1];
-          performedList.push(transaction);          
+          performedList.push(transaction);
         }
-
-        
-
       });
-      
+
+      //update object
       this.systemTransactions = systemList;
       this.performedTransactions = performedList;
       this.allTransactions = tempList;
@@ -89,5 +94,5 @@ export class AllTransactionsComponent {
     });
   }
 
-          
+
 }

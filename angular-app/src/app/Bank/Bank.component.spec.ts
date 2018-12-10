@@ -9,6 +9,7 @@ import { Configuration } from '../configuration';
 import { DataService } from '../data.service';
 import { BankComponent } from './Bank.component';
 import {BankService} from './Bank.service';
+
 describe('BankComponent', () => {
   let component: BankComponent;
   let fixture: ComponentFixture<BankComponent>;
@@ -16,13 +17,13 @@ describe('BankComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ BankComponent ],
-imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpModule
-  ],
-providers: [BankService,DataService,Configuration]
+      imports: [
+          BrowserModule,
+          FormsModule,
+          ReactiveFormsModule,
+          HttpModule
+        ],
+      providers: [BankService,DataService,Configuration]
     })
     .compileComponents();
   }));

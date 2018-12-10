@@ -9,6 +9,7 @@ import { Configuration } from '../configuration';
 import { DataService } from '../data.service';
 import { CoinsComponent } from './Coins.component';
 import {CoinsService} from './Coins.service';
+
 describe('CoinsComponent', () => {
   let component: CoinsComponent;
   let fixture: ComponentFixture<CoinsComponent>;
@@ -16,13 +17,13 @@ describe('CoinsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ CoinsComponent ],
-imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpModule
-  ],
-providers: [CoinsService,DataService,Configuration]
+      imports: [
+          BrowserModule,
+          FormsModule,
+          ReactiveFormsModule,
+          HttpModule
+        ],
+      providers: [CoinsService,DataService,Configuration]
     })
     .compileComponents();
   }));

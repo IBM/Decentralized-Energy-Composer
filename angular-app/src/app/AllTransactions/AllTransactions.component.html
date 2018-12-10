@@ -28,23 +28,23 @@
           </th>
           <th>
             Transaction ID
-          </th>         
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let transaction of performedTransactions">           
+        <tr *ngFor="let transaction of performedTransactions">
           <td>
-            {{transaction.$class}}
+            {{transaction.transactionType}}
           </td>
           <td>
             {{transaction.transactionId}}
           </td>
-          
+
 
         </tr>
       </tbody>
     </table>
-        
+
   </div>
 
   <div class="row">
@@ -63,26 +63,26 @@
           </th>
           <th>
             Transaction ID
-          </th>         
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let transaction of systemTransactions"> 
+        <tr *ngFor="let transaction of systemTransactions">
           <td>
-            {{transaction.$class}}
+            {{transaction.transactionType}}
           </td>
           <td>
             {{transaction.transactionId}}
           </td>
-          
+
 
         </tr>
       </tbody>
     </table>
-    
-    <!-- p *ngFor="let transaction of allTransactions">{{transaction.transactionId}}</p-->    
+
+    <!-- p *ngFor="let transaction of allTransactions">{{transaction.transactionId}}</p-->
   </div>
-  
+
   <div class="row">
     <br>
     <br>

@@ -1,12 +1,14 @@
 {
   "engines": {
-    "composer": "^0.9.0"
+    "composer": "^0.19.0"
   },
   "name": "decentralized-energy-network",
-  "version": "0.1.1",
+  "version": "0.1.15",
   "description": "Decentralized Energy application with Hyperledger Composer",
+  "networkImage": "https://hyperledger.github.io/composer-sample-networks/packages/basic-sample-network/networkimage.svg",
+  "networkImageanimated": "https://hyperledger.github.io/composer-sample-networks/packages/basic-sample-network/networkimageanimated.svg",
   "scripts": {
-    "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/decentralized-energy-network.bna",
+    "prepublish": "composer archive create -t dir -n .",
     "pretest": "npm run lint",
     "lint": "eslint .",
     "postlint": "npm run licchk",
@@ -19,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hyperledger/composer-sample-networks.git"
+    "url": "https://github.com/IBM/Decentralized-Energy-Composer"
   },
   "keywords": [
     "composer",
@@ -31,11 +33,11 @@
     "browserfs": "^1.2.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
-    "composer-admin": "^0.9.0",
-    "composer-cli": "^0.9.0",
-    "composer-client": "^0.9.0",
-    "composer-connector-embedded": "^0.9.0",
-    "composer-cucumber-steps": "^0.9.0",
+    "composer-admin": "^0.19.0-0",
+    "composer-cli": "^0.19.0-0",
+    "composer-client": "^0.19.0-0",
+    "composer-connector-embedded": "^0.19.0-0",
+    "composer-cucumber-steps": "^0.19.0-0",
     "cucumber": "^2.2.0",
     "eslint": "^3.6.1",
     "istanbul": "^0.4.5",
@@ -51,9 +53,9 @@
       "**/*.js",
       "!./coverage/**/*",
       "!./node_modules/**/*",
+      "!./angular-app/**/*",
       "!./out/**/*",
-      "!./scripts/**/*",
-      "!./angular-app/**/*"
+      "!./scripts/**/*"
     ],
     "path": "header.txt",
     "blocking": true,
@@ -65,8 +67,7 @@
       "coverage/**",
       "features/**",
       "out/**",
-      "test/**",
-      "angular-app/**"
+      "test/**"
     ],
     "reporter": [
       "text-summary",
@@ -78,5 +79,8 @@
     "branches": 100,
     "functions": 100,
     "lines": 100
+  },
+  "dependencies": {
+    "composer-runtime": "^0.19.19"
   }
 }

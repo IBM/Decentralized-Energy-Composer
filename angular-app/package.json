@@ -1,16 +1,14 @@
 {
   "name": "angular-app",
-  "description":"Decentralized Energy with Composer",
+  "description": "Decentralized Energy with Composer",
   "version": "0.0.1",
   "author": "Raheel Zubairy",
   "email": "raheel.zubairy@ibm.com",
   "license": "Apache-2.0",
   "scripts": {
     "ng": "ng",
-
-    "app": "composer-rest-server -n decentralized-energy-network -p hlfv1 -i admin -s adminpw -N never -P 3000",
+    "app": "composer-rest-server -c admin@decentralized-energy-network -n never -w true",
     "start": "concurrently \"ng serve --host 0.0.0.0\" \"npm run app\"",
-
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test --watch false",
     "pree2e": "webdriver-manager update --standalone false --gecko false",
@@ -27,8 +25,8 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
     "bootstrap": "^3.3.7",
-    "composer-client": "latest",
-    "composer-rest-server": "latest",
+    "composer-client": "^0.19.0-0",
+    "composer-rest-server": "^0.19.0-0",
     "concurrently": "^3.1.0",
     "config": "^1.21.0",
     "core-js": "^2.4.1",
