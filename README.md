@@ -26,7 +26,8 @@ This code pattern is for developers looking to start building Blockchain applica
 
 # Included Components
 
-* Hyperledger Composer
+* Hyperledger Composer v0.20
+* Hyperledger Fabric v1.2
 * Angular Framework
 * Loopback
 
@@ -42,11 +43,11 @@ Follow these steps to setup and run this code pattern. The steps are described i
   * to install specific Node version you can use [nvm](https://davidwalsh.name/nvm)
 - [Hyperledger Composer](https://hyperledger.github.io/composer/installing/development-tools.html)
   * to install composer cli
-    `npm install -g composer-cli@0.19`
+    `npm install -g composer-cli@0.20`
   * to install composer-rest-server
-    `npm install -g composer-rest-server`
+    `npm install -g composer-rest-server@0.20`
   * to install generator-hyperledger-composer
-    `npm install -g generator-hyperledger-composer`
+    `npm install -g generator-hyperledger-composer@0.20`
 
 ## Steps
 1. [Clone the repo](#1-clone-the-repo)
@@ -76,10 +77,15 @@ docker rm $(docker ps -aq)
 docker rmi $(docker images dev-* -q)
 ```
 
+Set the fabric version to v1.2:
+```
+export FABRIC_VERSION=hlfv12
+```
+
 All the scripts will be in the directory `/fabric-tools`.  Start fabric and create peer admin card:
 
 ```
-cd fabric-tools/
+cd fabric-dev-servers/
 ./downloadFabric.sh
 ./startFabric.sh
 ./createPeerAdminCard.sh
