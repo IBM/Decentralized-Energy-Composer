@@ -113,7 +113,7 @@ First, install the business network:
 composer network install --card PeerAdmin@hlfv1 --archiveFile decentralized-energy-network@0.1.15.bna
 ```
 
-Start the business network (ensure you are using composer-cli 0.19):
+Start the business network:
 
 ```
 composer network start --networkName decentralized-energy-network --networkVersion 0.1.15 --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1 --file networkadmin.card
