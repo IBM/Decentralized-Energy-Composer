@@ -41,7 +41,7 @@ Follow these steps to setup and run this code pattern. The steps are described i
 - [npm](https://www.npmjs.com/)  (v5.x)
 - [Node](https://nodejs.org/en/) (version 8.9 or higher - note version 9 is not supported)
   * to install specific Node version you can use [nvm](https://davidwalsh.name/nvm)
-- [Hyperledger Composer](https://hyperledger.github.io/composer/installing/development-tools.html)
+- [Hyperledger Composer](https://hyperledger.github.io/composer/v0.19/installing/development-tools.html)
   * to install composer cli
     `npm install -g composer-cli@0.20`
   * to install composer-rest-server
@@ -182,11 +182,11 @@ This application demonstrates a basic idea of a decentralized energy network usi
 
 ## Deploy to IBM Cloud
 
-The blockchain network can be deployed to IBM Cloud. 
-You can use the [IBM Blockchain platform](https://console.bluemix.net/catalog/services/blockchain) and start for free under `Starter Membership Plan`.  Follow [these instructions](https://console.bluemix.net/docs/services/blockchain/develop_starter.html#deploying-a-business-network) to deploy the business network to IBM Blockchain platform.
+The blockchain network can be deployed to IBM Cloud.
+You can use the [IBM Blockchain platform](https://cloud.ibm.com/catalog/services/blockchain) and start for free under `Starter Membership Plan`.  Follow [these instructions](https://cloud.ibm.com/docs/services/blockchain/develop_starter.html#deploying-a-business-network) to deploy the business network to IBM Blockchain platform.
 
 ## Additional Resources
-* [Hyperledger Fabric Docs](http://hyperledger-fabric.readthedocs.io/en/latest/)
+* [Hyperledger Fabric Docs](https://hyperledger-fabric.readthedocs.io/en/latest/)
 * [Hyperledger Composer Docs](https://hyperledger.github.io/composer/latest/introduction/introduction.html)
 
 ## License
