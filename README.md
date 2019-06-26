@@ -1,3 +1,5 @@
+# WARNING: This repository is no longer maintained :warning:
+
 *Read this in other languages: [中文](README-cn.md).*
 # Decentralized Energy with Hyperledger Composer
 
